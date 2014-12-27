@@ -14,6 +14,40 @@ void setup() {
         map[a][b] = '.';
     }
   }
+  int i=0;
+  while(i<5){
+   for(int a = 1; a < map.length-1; a++) {
+      for(int b = 1; b < map[a].length-1; b++){
+       int count = 0;
+      
+       if(map[a-1][b-1]=='#')
+           count++;
+       if(map[a-1][b]=='#')
+           count++;
+       if(map[a-1][b+1]=='#')
+           count++;
+       if(map[a][b-1]=='#')
+           count++;
+       if(map[a][b]=='#')
+           count++;
+       if(map[a][b+1]=='#')
+           count++;
+       if(map[a+1][b-1]=='#')
+           count++;
+       if(map[a+1][b]=='#')
+           count++;
+       if(map[a+1][b+1]=='#')
+           count++;
+           
+       if(count>=5)
+           map[a][b]='#';
+       else
+          map[a][b]='.';
+          
+       i++;
+    }   
+  }  
+}
 }
 
 boolean detectWall(int x, int y) {

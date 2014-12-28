@@ -67,7 +67,7 @@ char[][] generateMap() {
     }
     for (int x = 1; x < count1.length-1; x++) {
       for (int y = 1; y < count1[x].length-1; y++) {
-        if ((count1[x][y]>=5) || (i<4 && count2[x][y]<=2))  
+        if ((count1[x][y]>=5) || (i<4 && count2[x][y]<=2))
           m[x][y] = '#';
         else
           m[x][y] = '.';
@@ -78,7 +78,7 @@ char[][] generateMap() {
 }
 
 boolean detectWall(int x, int y) {
-  return map[(Player.getX()+x)/16][(Player.getY()+y)/16] == '#';
+  return map[(Player.getX()+x)/16][(Player.getY()+y)/16-1] == '#';
 }
 
 void keyPressed() {

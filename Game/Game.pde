@@ -51,23 +51,23 @@ char[][] generateMap() {
   int[][] count2 = new int[50][50];
   for (int x = 0; x < m.length; x++) {
     for (int y = 0; y < m[x].length; y++) {
-      if (random(100)<40)
+      if (x==0 || x==m[x].length-1 || y==0 || y==m.length-1 || random(100)<40)
         m[x][y] = '#';
       else
         m[x][y] = '.';
     }
   }
   for (int i = 0; i < 7; i++) {
-    for (int x = 0; x < m.length; x++) {
-      for (int y = 0; y < m[x].length; y++) {
+    for (int x = 1; x < m.length-1; x++) {
+      for (int y = 1; y < m[x].length-1; y++) {
         count1[x][y] = checkWalls(m, x, y, 1);
         if (i < 4)
           count2[x][y] = checkWalls(m, x, y, 2);
       }
     }
-    for (int x = 0; x < count1.length; x++) {
-      for (int y = 0; y < count1[x].length; y++) {
-        if ((count1[x][y]>=5) || (i<4 && count2[x][y]<=2 )
+    for (int x = 1; x < count1.length-1; x++) {
+      for (int y = 1; y < count1[x].length-1; y++) {
+        if ((count1[x][y]>=5) || (i<4 && count2[x][y]<=2))  
           m[x][y] = '#';
         else
           m[x][y] = '.';
@@ -124,10 +124,10 @@ void keyPressed() {
 void draw() {
   background(0);
   textSize(16);
-  for (int a = 0; a < map.length; a++) {
-    for (int b = 0; b < map[a].length; b++) {
-      if (a*16 != Player.getX() || b*16 != Player.getY()) {
-        text(map[a][b], a*16, b*16);
+  for (int x = 0; x < map.length; x++) {
+    for (int y = 0; y < map[x].length; y++) {
+      if (x*16 != Player.getX() || y*16 + 16 != Player.getY()) {
+        text(map[x][y], x*16, y*16 + 16);
       }
     }
   }

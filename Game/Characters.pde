@@ -22,17 +22,18 @@ public abstract class Characters {
   public void display() {
     text(symbol, loc.x*16, loc.y*16+16);
   }
-  public void spawn(char[][] map) {
+  public void spawn(Terrain[][] map) {
     int x;
     int y;
     while (true) {
       x = int(random(map.length-1)+1);
-      y = int(random(map.length-1)+1);
-      if (map[x][y] != '#') {
+      y = int(random(map[x].length-1)+1);
+      if (map[x][y].getType() != '#') {
         addLoc(x, y);
         break;
       }
     }
+    map[x][y].setEmpty(false);
   }
 }
 
@@ -41,3 +42,10 @@ public class PC extends Characters {
     super(name, '@', 0, 0);
   }
 }
+
+public class Monster extends Characters {
+  public Monster(String name, char symbol) {
+    super(name, symbol, 0, 0);
+  }
+}
+

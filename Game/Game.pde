@@ -1,10 +1,10 @@
 PC Player;
-char[][] map;
+Terrain[][] map;
 
 void setup() {
   noLoop();
   size(800, 800);
-  map = new char[50][50];
+  map = new Terrain[50][50];
   generateMap();
   Player = new PC("Player");
   Player.spawn(map);
@@ -16,7 +16,7 @@ boolean inBounds(int x, int y) {
 
 int checkWalls(int x, int y, int range) {
   int count = 0;
-  if (map[x][y] == '#')
+  if (map[x][y].getType() == '#')
     count++;
   for (int i = 1; i <= range; i++) {
     int xstart1 = x - i;
@@ -25,9 +25,9 @@ int checkWalls(int x, int y, int range) {
     int ystart1 = y - i;
     int ystart2 = y - i;
     int yend = y + i;
-    if (inBounds(xstart1, ystart1) && map[xstart1][ystart1] == '#')
+    if (inBounds(xstart1, ystart1) && map[xstart1][ystart1].getType() == '#')
       count++;
-    if (inBounds(xend, yend) && map[xend][yend] == '#')
+    if (inBounds(xend, yend) && map[xend][yend].getType() == '#')
       count--;
     while (xstart1 != xend || ystart1 != yend) {
       if (xstart1 != xend) {
@@ -37,9 +37,9 @@ int checkWalls(int x, int y, int range) {
         ystart1++;
         xstart2++;
       }
-      if (inBounds(xstart1, ystart1) && map[xstart1][ystart1] == '#')
+      if (inBounds(xstart1, ystart1) && map[xstart1][ystart1].getType() == '#')
         count++;
-      if (inBounds(xstart2, ystart2) && map[xstart2][ystart2] == '#')
+      if (inBounds(xstart2, ystart2) && map[xstart2][ystart2].getType() == '#')
         count++;
     }
   }
@@ -51,10 +51,11 @@ void generateMap() {
   int[][] count2 = new int[50][50];
   for (int x = 0; x < map.length; x++) {
     for (int y = 0; y < map[x].length; y++) {
+      map[x][y] = new Terrain();
       if (x==0 || x==map[x].length-1 || y==0 || y==map.length-1 || random(100)<40)
-        map[x][y] = '#';
+        map[x][y].setType('#');
       else
-        map[x][y] = '.';
+        map[x][y].setType('.');
     }
   }
   for (int i = 0; i < 7; i++) {
@@ -68,16 +69,16 @@ void generateMap() {
     for (int x = 1; x < count1.length-1; x++) {
       for (int y = 1; y < count1[x].length-1; y++) {
         if ((count1[x][y]>=5) || (i<4 && count2[x][y]<=2))
-          map[x][y] = '#';
+          map[x][y].setType('#');
         else
-          map[x][y] = '.';
+          map[x][y].setType('.');
       }
     }
   }
 }
 
 boolean detectWall(int x, int y) {
-  return map[Player.getX()+x][Player.getY()+y] == '#';
+  return map[Player.getX()+x][Player.getY()+y].getType() == '#';
 }
 
 void keyPressed() {
@@ -125,8 +126,8 @@ void draw() {
   textSize(16);
   for (int x = 0; x < map.length; x++) {
     for (int y = 0; y < map[x].length; y++) {
-      if (x != Player.getX() || y != Player.getY()) {
-        text(map[x][y], x*16, y*16 + 16);
+      if (map[x][y].getEmpty()) {
+        text(map[x][y].getType(), x*16, y*16 + 16);
       }
     }
   }

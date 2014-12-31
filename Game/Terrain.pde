@@ -1,22 +1,19 @@
-public class Terrain() {
+public class Terrain {
   char type;
   boolean empty;
   public Terrain() {
-    empty = true;
+    setEmpty(true);
   }
-  public boolean getType(){
-    return type; 
+  public char getType() {
+    return type;
   }
-  public void setWall(){
-    type = '#';
+  public void setType(char t) {
+    type = t;
   }
-  public void setEmpty(){
-    type = '.';
+  public void setEmpty(boolean p) {
+    empty = p;
   }
-  public void setEmpty(boolean p){
-    empty = p; 
-  }
-  public boolean getEmpty(){
+  public boolean getEmpty() {
     return empty;
   }
 }

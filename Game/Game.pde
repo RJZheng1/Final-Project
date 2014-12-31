@@ -1,4 +1,4 @@
-Characters Player;
+PC Player;
 char[][] map;
 
 void setup() {
@@ -6,14 +6,15 @@ void setup() {
   size(800, 800);
   map = new char[50][50];
   generateMap();
-  Player = new Characters("Player", '@', 25, 25);
+  Player = new PC("Player");
+  Player.spawn(map);
 }
 
 boolean inBounds(int x, int y) {
   return x >= 0 && x < map.length && y >= 0 && y < map[x].length;
 }
 
-int checkWalls(char[][] m, int x, int y, int range) {
+int checkWalls(int x, int y, int range) {
   int count = 0;
   if (map[x][y] == '#')
     count++;

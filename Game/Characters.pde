@@ -17,7 +17,7 @@ public class Characters {
     return int(loc.y);
   }
   public void display() {
-    text(symbol, loc.x, loc.y);
+    text(symbol, loc.x*16, loc.y*16+16);
   }
 }
 

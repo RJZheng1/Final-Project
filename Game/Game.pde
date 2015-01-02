@@ -1,5 +1,6 @@
 PC Player;
 Terrain[][] map;
+ArrayList<Monster> Monsters;
 
 void setup() {
   noLoop();
@@ -8,6 +9,11 @@ void setup() {
   generateMap();
   Player = new PC("Player");
   Player.spawn(map);
+  Monsters = new ArrayList<Monster>();
+  for (int i = 0; i < 10; i++) {
+    Monsters.add(new Monster("Zombie", 'Z'));
+    Monsters.get(i).spawn(map, i);
+  }
 }
 
 boolean inBounds(int x, int y) {
@@ -77,47 +83,9 @@ void generateMap() {
   }
 }
 
-boolean detectWall(int x, int y) {
-  return map[Player.getX()+x][Player.getY()+y].getType() == '#';
-}
-
 void keyPressed() {
-  switch(key) {
-  case '1':
-    if (!detectWall(-1, 1))
-      Player.addLoc(-1, 1);
-    break;
-  case '2':
-    if (!detectWall(0, 1))
-      Player.addLoc(0, 1);
-    break;
-  case '3':
-    if (!detectWall(1, 1))
-      Player.addLoc(1, 1);
-    break;
-  case '4':
-    if (!detectWall(-1, 0))
-      Player.addLoc(-1, 0);
-    break;
-  case '5':
-    break;
-  case '6':
-    if (!detectWall(1, 0))
-      Player.addLoc(1, 0);
-    break;
-  case '7':
-    if (!detectWall(-1, -1))
-      Player.addLoc(-1, -1);
-    break;
-  case '8':
-    if (!detectWall(0, -1))
-      Player.addLoc(0, -1);
-    break;
-  case '9':
-    if (!detectWall(1, -1))
-      Player.addLoc(1, -1);
-    break;
-  }
+  if (key >= '0' && key <= '9')
+    Player.move(map, Monsters, key);
   redraw();
 }
 
@@ -126,11 +94,15 @@ void draw() {
   textSize(16);
   for (int x = 0; x < map.length; x++) {
     for (int y = 0; y < map[x].length; y++) {
-      if (map[x][y].getEmpty()) {
+      if (map[x][y].isEmpty() && (x != Player.getX() || y != Player.getY())) {
         text(map[x][y].getType(), x*16, y*16 + 16);
       }
     }
   }
   Player.display();
+  for (Monster m : Monsters) {
+    if (!m.isDead())
+      m.display();
+  }
 }
 

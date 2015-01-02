@@ -1,6 +1,7 @@
 public class Terrain {
   char type;
   boolean empty;
+  int monster;
   public Terrain() {
     setEmpty(true);
   }
@@ -13,8 +14,14 @@ public class Terrain {
   public void setEmpty(boolean p) {
     empty = p;
   }
-  public boolean getEmpty() {
+  public boolean isEmpty() {
     return empty;
+  }
+  public int getMonster() {
+    return monster;
+  }
+  public void setMonster(int monster) {
+    this.monster = monster;
   }
 }
 

@@ -83,6 +83,15 @@ void generateMap() {
   }
 }
 
+//void fov(int x, int y, int r) {
+//  for (int a = -r; a <= r; a++) {
+//    for (int b = -r; b<=r; b++) {
+//      if (inBounds(a, b) && a*a+b*b<=r*r)
+//        los(x, y, a, b);
+//    }
+//  }
+//}
+
 void keyPressed() {
   if (key >= '0' && key <= '9')
     Player.move(map, Monsters, key);
@@ -94,9 +103,8 @@ void draw() {
   textSize(16);
   for (int x = 0; x < map.length; x++) {
     for (int y = 0; y < map[x].length; y++) {
-      if (map[x][y].isEmpty() && (x != Player.getX() || y != Player.getY())) {
+      if (map[x][y].isEmpty() && (x != Player.getX() || y != Player.getY()))
         text(map[x][y].getType(), x*16, y*16 + 16);
-      }
     }
   }
   Player.display();

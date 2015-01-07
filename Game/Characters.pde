@@ -89,7 +89,7 @@ public class PC extends Characters {
     }
   }
   public void moveHelper(Terrain[][] map, ArrayList<Monster> Monsters, int x, int y) {
-    if (detectMonster(map, x, y))
+    if (detectMonster(map, x, y) && !Monsters.get(getMonster(map, x, y)).isDead())
       Monsters.get(getMonster(map, x, y)).damage(map, 20);
     else if (!detectWall(map, x, y))
       Player.addLoc(x, y);

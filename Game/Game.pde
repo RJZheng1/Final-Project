@@ -91,6 +91,7 @@ void fov(int x, int y, int r) {
     for (int b = -r; b<=r; b++) {
       if (inBounds(x+a, y+b) && a*a+b*b<=r*r)
         los(x, y, x+a, y+b);
+        //text(map[x+a][y+b].getType(),(x+a)*16,(y+b)*16+16);
     }
   }
 }
@@ -98,26 +99,28 @@ void fov(int x, int y, int r) {
 void los(int xstart, int ystart, int xend, int yend) {
   float slope;
   if (xstart == xend) {
-    slope = 50;
+    slope = 50*Math.signum(yend-ystart);
   } else
     slope = (yend - ystart)/(xend - xstart);
-  int change;
-  if (slope > 0)
-    change = 1;
-  else
-    change = -1;
+  int xchange = int(Math.signum(xend - xstart));
+  int ychange = int(Math.signum(yend - ystart));
   float m = slope;
+  int mturn = int(Math.signum(slope));
   while (xstart != xend || ystart != yend) {
-    text(map[xstart][ystart].getType(), xstart*16, ystart*16+16);
     if (map[xstart][ystart].getType() == '#')
       break;
-    if (Math.abs(m) > Math.abs(change)) {
-      ystart += change;
-      m -= change;
+    if (Math.abs(m) > Math.abs(mturn)) {
+      ystart += xchange;
+      m -= mturn;
+    } else if (Math.abs(m) == Math.abs(mturn)) {
+      xstart += xchange;
+      ystart += ychange;
+      m = slope;
     } else {
-      xstart += change;
+      xstart += xchange;
       m += slope;
     }
+    text(map[xstart][ystart].getType(), xstart*16, ystart*16+16);
   }
 }
 
@@ -136,7 +139,7 @@ void draw() {
   //        text(map[x][y].getType(), x*16, y*16 + 16);
   //    }
   //  }
-  fov(Player.getX(), Player.getY(), 10);
+  fov(Player.getX(), Player.getY(), 3);
   Player.display();
   //  for (Monster m : Monsters) {
   //    if (!m.isDead())

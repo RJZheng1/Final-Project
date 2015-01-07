@@ -1,19 +1,15 @@
 PC Player;
 Terrain[][] map;
 ArrayList<Monster> Monsters;
+int level=0;
 
 void setup() {
   noLoop();
   size(800, 800);
   map = new Terrain[50][50];
-  generateMap();
   Player = new PC("Player");
-  Player.spawn(map);
   Monsters = new ArrayList<Monster>();
-  for (int i = 0; i < 10; i++) {
-    Monsters.add(new Monster("Zombie", 'Z'));
-    Monsters.get(i).spawn(map, i);
-  }
+  generateMap();
 }
 
 boolean inBounds(int x, int y) {
@@ -81,6 +77,13 @@ void generateMap() {
       }
     }
   }
+  Player.spawn(map);
+  for (int i = 0; i < 10; i++) {
+    Monsters.add(new Monster("Zombie", 'Z'));
+    Monsters.get(i).spawn(map, i);
+  }
+  generateLadder(map);
+  level++;
 }
 
 //void fov(int x, int y, int r) {
@@ -111,6 +114,20 @@ void draw() {
   for (Monster m : Monsters) {
     if (!m.isDead())
       m.display();
+  }
+}
+
+void generateLadder(Terrain[][] map){
+  int x;
+  int y;
+  while (true) {
+      x = int(random(map.length-1)+1);
+      y = int(random(map[x].length-1)+1);
+      if (map[x][y].getType() != '#' && map[x][y].getType() != '@') {
+         map[x][y].setType('>');
+         text(map[x][y].getType(), x*16, y*16 + 16);
+         break;
+      }
   }
 }
 

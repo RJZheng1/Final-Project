@@ -16,6 +16,7 @@ fixed the algorithm by making the edges of the screen to be walls
 shifted map so you can see the whole cave
 player and monster spawn is randomized
 can attack monsters
+ladder is generated ( with no function ) player and monster spawn all moved within map generation
 
 To-Do List:
 Add line of sight.

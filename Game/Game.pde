@@ -86,14 +86,40 @@ void generateMap() {
   level++;
 }
 
-//void fov(int x, int y, int r) {
-//  for (int a = -r; a <= r; a++) {
-//    for (int b = -r; b<=r; b++) {
-//      if (inBounds(a, b) && a*a+b*b<=r*r)
-//        los(x, y, a, b);
-//    }
-//  }
-//}
+void fov(int x, int y, int r) {
+  for (int a = -r; a<=r; a++) {
+    for (int b = -r; b<=r; b++) {
+      if (inBounds(x+a, y+b) && a*a+b*b<=r*r)
+        los(x, y, x+a, y+b);
+    }
+  }
+}
+
+void los(int xstart, int ystart, int xend, int yend) {
+  float slope;
+  if (xstart == xend) {
+    slope = 50;
+  } else
+    slope = (yend - ystart)/(xend - xstart);
+  int change;
+  if (slope > 0)
+    change = 1;
+  else
+    change = -1;
+  float m = slope;
+  while (xstart != xend || ystart != yend) {
+    text(map[xstart][ystart].getType(), xstart*16, ystart*16+16);
+    if (map[xstart][ystart].getType() == '#')
+      break;
+    if (Math.abs(m) > Math.abs(change)) {
+      ystart += change;
+      m -= change;
+    } else {
+      xstart += change;
+      m += slope;
+    }
+  }
+}
 
 void keyPressed() {
   if (key >= '0' && key <= '9')
@@ -104,30 +130,31 @@ void keyPressed() {
 void draw() {
   background(0);
   textSize(16);
-  for (int x = 0; x < map.length; x++) {
-    for (int y = 0; y < map[x].length; y++) {
-      if (map[x][y].isEmpty() && (x != Player.getX() || y != Player.getY()))
-        text(map[x][y].getType(), x*16, y*16 + 16);
-    }
-  }
+  //  for (int x = 0; x < map.length; x++) {
+  //    for (int y = 0; y < map[x].length; y++) {
+  //      if (map[x][y].isEmpty() && (x != Player.getX() || y != Player.getY()))
+  //        text(map[x][y].getType(), x*16, y*16 + 16);
+  //    }
+  //  }
+  fov(Player.getX(), Player.getY(), 10);
   Player.display();
-  for (Monster m : Monsters) {
-    if (!m.isDead())
-      m.display();
-  }
+  //  for (Monster m : Monsters) {
+  //    if (!m.isDead())
+  //      m.display();
+  //  }
 }
 
-void generateLadder(Terrain[][] map){
+void generateLadder(Terrain[][] map) {
   int x;
   int y;
   while (true) {
-      x = int(random(map.length-1)+1);
-      y = int(random(map[x].length-1)+1);
-      if (map[x][y].getType() != '#' && map[x][y].getType() != '@') {
-         map[x][y].setType('>');
-         text(map[x][y].getType(), x*16, y*16 + 16);
-         break;
-      }
+    x = int(random(map.length-1)+1);
+    y = int(random(map[x].length-1)+1);
+    if (map[x][y].getType() != '#' && map[x][y].getType() != '@') {
+      map[x][y].setType('>');
+      text(map[x][y].getType(), x*16, y*16 + 16);
+      break;
+    }
   }
 }
 

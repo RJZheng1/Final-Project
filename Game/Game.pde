@@ -13,7 +13,7 @@ void setup() {
 }
 
 boolean inBounds(int x, int y) {
-  return x >= 0 && x < map.length && y >= 0 && y < map[x].length;
+  return x >= 0 && x < map.length && y   >= 0 && y < map[x].length;
 }
 
 int checkWalls(int x, int y, int range) {
@@ -46,6 +46,19 @@ int checkWalls(int x, int y, int range) {
     }
   }
   return count;
+}
+
+void generateLadder(Terrain[][] map) {
+  int x;
+  int y;
+  while (true) {
+    x = int(random(map.length-1)+1);
+    y = int(random(map[x].length-1)+1);
+    if (map[x][y].getType() != '#' && map[x][y].getType() != '@') {
+      map[x][y].setType('>');
+      break;
+    }
+  }
 }
 
 void generateMap() {
@@ -91,7 +104,6 @@ void fov(int x, int y, int r) {
     for (int b = -r; b<=r; b++) {
       if (inBounds(x+a, y+b) && a*a+b*b<=r*r)
         los(x, y, x+a, y+b);
-      //text(map[x+a][y+b].getType(), (x+a)*16, (y+b)*16+16);
     }
   }
 }
@@ -133,31 +145,7 @@ void keyPressed() {
 void draw() {
   background(0);
   textSize(16);
-  //  for (int x = 0; x < map.length; x++) {
-  //    for (int y = 0; y < map[x].length; y++) {
-  //      if (map[x][y].isEmpty() && (x != Player.getX() || y != Player.getY()))
-  //        text(map[x][y].getType(), x*16, y*16 + 16);
-  //    }
-  //  }
   fov(Player.getX(), Player.getY(), 10);
   Player.display();
-  //  for (Monster m : Monsters) {
-  //    if (!m.isDead())
-  //      m.display();
-  //  }
-}
-
-void generateLadder(Terrain[][] map) {
-  int x;
-  int y;
-  while (true) {
-    x = int(random(map.length-1)+1);
-    y = int(random(map[x].length-1)+1);
-    if (map[x][y].getType() != '#' && map[x][y].getType() != '@') {
-      map[x][y].setType('>');
-      text(map[x][y].getType(), x*16, y*16 + 16);
-      break;
-    }
-  }
 }
 

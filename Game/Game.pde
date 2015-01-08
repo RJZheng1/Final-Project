@@ -91,7 +91,7 @@ void generateMap() {
     }
   }
   Player.spawn(map);
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 100; i++) {
     Monsters.add(new Monster("Zombie", 'Z'));
     Monsters.get(i).spawn(map, i);
   }
@@ -133,6 +133,11 @@ void los(int xstart, int ystart, int xend, int yend) {
       m += slope;
     }
     text(map[xstart][ystart].getType(), xstart*16, ystart*16+16);
+    for ( Monster k : Monsters ){
+       if ( k.getX()==xstart && k.getY()==ystart && !k.isDead()){
+          k.display();
+       }
+    }
   }
 }
 
@@ -147,5 +152,6 @@ void draw() {
   textSize(16);
   fov(Player.getX(), Player.getY(), 10);
   Player.display();
+  
 }
 

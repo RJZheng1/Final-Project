@@ -91,7 +91,7 @@ void fov(int x, int y, int r) {
     for (int b = -r; b<=r; b++) {
       if (inBounds(x+a, y+b) && a*a+b*b<=r*r)
         los(x, y, x+a, y+b);
-        //text(map[x+a][y+b].getType(), (x+a)*16, (y+b)*16+16);
+      //text(map[x+a][y+b].getType(), (x+a)*16, (y+b)*16+16);
     }
   }
 }
@@ -101,7 +101,7 @@ void los(int xstart, int ystart, int xend, int yend) {
   if (xend == xstart)
     slope = 50*Math.signum(yend-ystart);
   else
-    slope = (yend - ystart)/(xend - xstart);
+    slope = float((yend - ystart))/(xend - xstart);
   int xchange = int(Math.signum(xend - xstart));
   int ychange = int(Math.signum(yend - ystart));
   float m = slope;
@@ -139,7 +139,7 @@ void draw() {
   //        text(map[x][y].getType(), x*16, y*16 + 16);
   //    }
   //  }
-  fov(Player.getX(), Player.getY(), 3);
+  fov(Player.getX(), Player.getY(), 10);
   Player.display();
   //  for (Monster m : Monsters) {
   //    if (!m.isDead())

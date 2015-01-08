@@ -91,16 +91,16 @@ void fov(int x, int y, int r) {
     for (int b = -r; b<=r; b++) {
       if (inBounds(x+a, y+b) && a*a+b*b<=r*r)
         los(x, y, x+a, y+b);
-        //text(map[x+a][y+b].getType(),(x+a)*16,(y+b)*16+16);
+        //text(map[x+a][y+b].getType(), (x+a)*16, (y+b)*16+16);
     }
   }
 }
 
 void los(int xstart, int ystart, int xend, int yend) {
   float slope;
-  if (xstart == xend) {
+  if (xend == xstart)
     slope = 50*Math.signum(yend-ystart);
-  } else
+  else
     slope = (yend - ystart)/(xend - xstart);
   int xchange = int(Math.signum(xend - xstart));
   int ychange = int(Math.signum(yend - ystart));
@@ -109,10 +109,10 @@ void los(int xstart, int ystart, int xend, int yend) {
   while (xstart != xend || ystart != yend) {
     if (map[xstart][ystart].getType() == '#')
       break;
-    if (Math.abs(m) > Math.abs(mturn)) {
-      ystart += xchange;
+    if (Math.abs(m) > 1) {
+      ystart += ychange;
       m -= mturn;
-    } else if (Math.abs(m) == Math.abs(mturn)) {
+    } else if (Math.abs(m) == 1) {
       xstart += xchange;
       ystart += ychange;
       m = slope;

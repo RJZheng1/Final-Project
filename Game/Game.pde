@@ -132,12 +132,10 @@ void los(int xstart, int ystart, int xend, int yend) {
       xstart += xchange;
       m += slope;
     }
-    text(map[xstart][ystart].getType(), xstart*16, ystart*16+16);
-    for ( Monster k : Monsters ){
-       if ( k.getX()==xstart && k.getY()==ystart && !k.isDead()){
-          k.display();
-       }
-    }
+    if(map[xstart][ystart].isEmpty())
+      text(map[xstart][ystart].getType(), xstart*16, ystart*16+16);
+    else if(!Monsters.get(map[xstart][ystart].getMonster()).isDead())
+      Monsters.get(map[xstart][ystart].getMonster()).display();
   }
 }
 

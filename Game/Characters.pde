@@ -1,8 +1,8 @@
 public abstract class Characters {
-  String name;
-  char symbol;
-  PVector loc;
-  int HP;
+  private String name;
+  private char symbol;
+  private PVector loc;
+  private int HP;
   public Characters() {
     this("Adventurer", '@', 20, 0, 0);
   }
@@ -37,20 +37,27 @@ public abstract class Characters {
     }
     map[x][y].setEmpty(false);
   }
-  boolean detectWall(Terrain[][] map, int x, int y) {
+  public boolean detectWall(Terrain[][] map, int x, int y) {
     return map[getX()+x][getY()+y].getType() == '#';
   }
-  boolean detectMonster(Terrain[][]map, int x, int y) {
+  public boolean detectMonster(Terrain[][]map, int x, int y) {
     return !map[getX()+x][getY()+y].isEmpty();
   }
-  int getMonster(Terrain[][]map, int x, int y) {
+  public int getMonster(Terrain[][]map, int x, int y) {
     return map[getX()+x][getY()+y].getMonster();
   }
   public int getHP() {
     return HP;
   }
-  public void damage(int dmg) {
-    HP -= dmg;
+  public void setHP(int HP) {
+    this.HP = HP;
+  }
+  public String getName(){
+    return name;
+  }
+  public String attack(Characters other,int dmg) {
+    other.setHP(other.getHP()-dmg);
+    return name + " did " + dmg + " damage to " + other.getName();
   }
 }
 

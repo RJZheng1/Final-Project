@@ -2,18 +2,19 @@ PC Player;
 Terrain[][] map;
 ArrayList<Monster> Monsters;
 int level=0;
+String[] text = new String[3];
 
 void setup() {
   noLoop();
   size(800, 800);
-  map = new Terrain[50][50];
+  map = new Terrain[45][45];
   Player = new PC("Player");
   Monsters = new ArrayList<Monster>();
   generateMap();
 }
 
 boolean inBounds(int x, int y) {
-  return x >= 0 && x < map.length && y   >= 0 && y < map[x].length;
+  return x >= 0 && x < map.length && y >= 0 && y < map[x].length;
 }
 
 int checkWalls(int x, int y, int range) {
@@ -62,8 +63,8 @@ void generateLadder(Terrain[][] map) {
 }
 
 void generateMap() {
-  int[][] count1 = new int[50][50];
-  int[][] count2 = new int[50][50];
+  int[][] count1 = new int[45][45];
+  int[][] count2 = new int[45][45];
   for (int x = 0; x < map.length; x++) {
     for (int y = 0; y < map[x].length; y++) {
       map[x][y] = new Terrain();
@@ -150,6 +151,7 @@ void draw() {
   textSize(16);
   fov(Player.getX(), Player.getY(), 10);
   Player.display();
-  
+  fill(255,255,255);
+  rect(0,735,800,3);
 }
 

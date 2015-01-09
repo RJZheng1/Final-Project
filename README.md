@@ -22,6 +22,11 @@ History:
 		ladder is generated ( with no function ) 
 		player and monster spawn all moved into map generation
 		monsters can be seen
+	1/8/15:
+		resized map so that space for text is made
+		started the text display
+		created attack 
+		made move and movehelper return a String for text display	
 
 To-Do List:
 Add Monster AI. Also, they should drop loot on death.

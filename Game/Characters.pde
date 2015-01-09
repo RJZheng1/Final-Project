@@ -3,6 +3,7 @@ public abstract class Characters {
   private char symbol;
   private PVector loc;
   private int HP;
+  private boolean dead;
   public Characters() {
     this("Adventurer", '@', 20, 0, 0);
   }
@@ -11,6 +12,7 @@ public abstract class Characters {
     this.symbol = symbol;
     this.HP = HP;
     loc = new PVector(x, y);
+    dead = false;
   }
   public void addLoc(int x, int y) {
     loc.add(x, y, 0);
@@ -52,11 +54,21 @@ public abstract class Characters {
   public void setHP(int HP) {
     this.HP = HP;
   }
-  public String getName(){
+  public String getName() {
     return name;
   }
-  public String attack(Characters other,int dmg) {
+  public void setDead(boolean dead) {
+    this.dead = dead;
+  }
+  public boolean isDead() {
+    return dead;
+  }
+  public String attack(Terrain[][] map, Characters other, int dmg) {
     other.setHP(other.getHP()-dmg);
+    if (other.getHP() <= 0) {
+      other.setDead(true);
+      map[other.getX()][other.getY()].setEmpty(true);
+    }
     return name + " did " + dmg + " damage to " + other.getName();
   }
 }
@@ -97,32 +109,22 @@ public class PC extends Characters {
   }
   public void moveHelper(Terrain[][] map, ArrayList<Monster> Monsters, int x, int y) {
     if (detectMonster(map, x, y) && !Monsters.get(getMonster(map, x, y)).isDead())
-      Monsters.get(getMonster(map, x, y)).damage(map, 20);
-    else if (!detectWall(map, x, y))
-      Player.addLoc(x, y);
+      attack(map, Monsters.get(getMonster(map, x, y)), 20);
+    else if (!detectWall(map, x, y)) {
+      map[getX()][getY()].setEmpty(true);
+      addLoc(x, y);
+    }
   }
 }
 
 public class Monster extends Characters {
-  boolean dead;
   public Monster(String name, char symbol) {
     super(name, symbol, 20, 0, 0);
-    dead = false;
   }
   public void spawn(Terrain[][] map, int i) {
     super.spawn(map);
     map[getX()][getY()].setEmpty(false);
     map[getX()][getY()].setMonster(i);
-  }
-  public void damage(Terrain[][] map, int dmg) {
-    super.damage(dmg);
-    if (getHP() <= 0) {
-      map[getX()][getY()].setEmpty(true);
-      dead = true;
-    }
-  }
-  public boolean isDead() {
-    return dead;
   }
 }
 

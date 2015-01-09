@@ -133,19 +133,19 @@ void los(int xstart, int ystart, int xend, int yend) {
       xstart += xchange;
       m += slope;
     }
-    if(map[xstart][ystart].isEmpty())
+    if (map[xstart][ystart].isEmpty())
       text(map[xstart][ystart].getType(), xstart*16, ystart*16+16);
-    else if(!Monsters.get(map[xstart][ystart].getMonster()).isDead())
+    else if (!Monsters.get(map[xstart][ystart].getMonster()).isDead())
       Monsters.get(map[xstart][ystart].getMonster()).display();
   }
 }
 
 void keyPressed() {
   if (key >= '0' && key <= '9')
-    //Player.move(map, Monsters, key);
-    text[2]=text[1];
-    text[1]=text[0];
-    text[0]=Player.move(map, Monsters, key);
+    Player.move(map, Monsters, key);
+  //    text[2]=text[1];
+  //  text[1]=text[0];
+  //  text[0]=Player.move(map, Monsters, key);
   redraw();
 }
 
@@ -154,13 +154,11 @@ void draw() {
   textSize(16);
   fov(Player.getX(), Player.getY(), 10);
   Player.display();
-  fill(255,255,255);
-  rect(0,735,800,3);
-  for(int i = 2; i >=0; i++){
-    int count=2-i;
-    for(int a = 0; a < text[i].length(); a++){
-      text(text[i].charAt(a),a,736);
-    }
-  }
+  fill(255, 255, 255);
+  rect(0, 735, 800, 3);
+  //  for (int i = 2; i >=0; i++) {
+  //    int count=2-i;
+  //    text(text[i], 0, 736);
+  //  }
 }
 

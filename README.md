@@ -26,9 +26,14 @@ History:
 		resized map so that space for text is made
 		started the text display
 		created attack 
-		made move and movehelper return a String for text display	
+		made move and movehelper return a String for text display
+	1/9/15:
+		the tile will display a . when the monster on it dies instead of displaying nothing
+		the tile the player spawns on will change to a . as soon as the player moves off it
 
 To-Do List:
+Flood-fill to make it so that the map cannot have isolated caves (find good algorithm)
+Make FOV more efficient.
 Add Monster AI. Also, they should drop loot on death.
 Find a theme.
 Add equipment (weapons,armor,etc.).
@@ -37,6 +42,6 @@ Maybe add consumables
 Stats?
 Leveling up (both character's level and going up the dungeon)
 Scaling loot/monsters to go up with dungeon? (can hard-code it)
+Ranged combat?
 Add tomes/manuals/whatever that will allow the player to gain skills (maybe allow them to get them by leveling up as well)
-
 

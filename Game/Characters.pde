@@ -109,11 +109,10 @@ public class PC extends Characters {
     }
     return "didn't move";
   }
-<<<<<<< HEAD
   public String moveHelper(Terrain[][] map, ArrayList<Monster> Monsters, int x, int y) {
-    if (detectMonster(map, x, y) && !Monsters.get(getMonster(map, x, y)).isDead()){
-      return attack(Monsters.get(getMonster(map, x, y)),20);
-    }else if (!detectWall(map, x, y)){
+    if (detectMonster(map, x, y) && !Monsters.get(getMonster(map, x, y)).isDead()) {
+      return attack(map,Monsters.get(getMonster(map, x, y)), 20);
+    } else if (!detectWall(map, x, y)) {
       map[getX()][getY()].setEmpty(true);
       Player.addLoc(x, y);
       return "cant move";

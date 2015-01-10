@@ -143,9 +143,9 @@ void los(int xstart, int ystart, int xend, int yend) {
 void keyPressed() {
   if (key >= '0' && key <= '9')
     Player.move(map, Monsters, key);
-  //    text[2]=text[1];
-  //  text[1]=text[0];
-  //  text[0]=Player.move(map, Monsters, key);
+  text[2]=text[1];
+  text[1]=text[0];
+  text[0]=Player.move(map, Monsters, key);
   redraw();
 }
 
@@ -156,9 +156,9 @@ void draw() {
   Player.display();
   fill(255, 255, 255);
   rect(0, 735, 800, 3);
-  //  for (int i = 2; i >=0; i++) {
-  //    int count=2-i;
-  //    text(text[i], 0, 736);
-  //  }
+  for (int i = 2; i >=0; i++) {
+    int count=2-i;
+    text(text[i], 0, 736);
+  }
 }
 

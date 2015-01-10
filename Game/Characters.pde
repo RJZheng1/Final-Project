@@ -55,8 +55,11 @@ public abstract class Characters {
   public String getName(){
     return name;
   }
+  public void damage(int dmg){
+      setHP(getHP()-dmg);
+  }
   public String attack(Characters other,int dmg) {
-    other.setHP(other.getHP()-dmg);
+    other.damage(dmg);
     return name + " did " + dmg + " damage to " + other.getName();
   }
 }
@@ -65,41 +68,47 @@ public class PC extends Characters {
   public PC(String name) {
     super(name, '@', 20, 0, 0);
   }
-  public void move(Terrain[][] map, ArrayList<Monster> Monsters, char k) {
+  public String move(Terrain[][] map, ArrayList<Monster> Monsters, char k) {
     switch(k) {
     case '1':
-      moveHelper(map, Monsters, -1, 1);
-      break;
+      return moveHelper(map, Monsters, -1, 1);
+      //break;
     case '2':
-      moveHelper(map, Monsters, 0, 1);
-      break;
+      return moveHelper(map, Monsters, 0, 1);
+      //break;
     case '3':
-      moveHelper(map, Monsters, 1, 1);
-      break;
+      return moveHelper(map, Monsters, 1, 1);
+      //break;
     case '4':
-      moveHelper(map, Monsters, -1, 0);
-      break;
+      return moveHelper(map, Monsters, -1, 0);
+      //break;
     case '5':
-      break;
+      return "you wait";
+      //break;
     case '6':
-      moveHelper(map, Monsters, 1, 0);
-      break;
+      return moveHelper(map, Monsters, 1, 0);
+      //break;
     case '7':
-      moveHelper(map, Monsters, -1, -1);
-      break;
+      return moveHelper(map, Monsters, -1, -1);
+      //break;
     case '8':
-      moveHelper(map, Monsters, 0, -1);
-      break;
+      return moveHelper(map, Monsters, 0, -1);
+      //break;
     case '9':
-      moveHelper(map, Monsters, 1, -1);
-      break;
+      return moveHelper(map, Monsters, 1, -1);
+      //break;
     }
+    return "didn't move";
   }
-  public void moveHelper(Terrain[][] map, ArrayList<Monster> Monsters, int x, int y) {
-    if (detectMonster(map, x, y) && !Monsters.get(getMonster(map, x, y)).isDead())
-      Monsters.get(getMonster(map, x, y)).damage(map, 20);
-    else if (!detectWall(map, x, y))
+  public String moveHelper(Terrain[][] map, ArrayList<Monster> Monsters, int x, int y) {
+    if (detectMonster(map, x, y) && !Monsters.get(getMonster(map, x, y)).isDead()){
+      Monsters.get(getMonster(map, x, y)).damage(map,20);
+      return attack(Monsters.get(getMonster(map, x, y)),20);
+    }else if (!detectWall(map, x, y)){
       Player.addLoc(x, y);
+      return "cant move";
+    }
+    return "you walked";
   }
 }
 

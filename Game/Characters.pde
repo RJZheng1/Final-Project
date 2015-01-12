@@ -1,11 +1,9 @@
-import java.util.*;
 public abstract class Characters {
   private String name;
   private char symbol;
   private PVector loc;
   private int HP;
   private boolean dead;
-  Random r;
   public Characters() {
     this("Adventurer", '@', 20, 0, 0);
   }
@@ -15,7 +13,6 @@ public abstract class Characters {
     this.HP = HP;
     loc = new PVector(x, y);
     dead = false;
-    r=new Random();
   }
   public void addLoc(int x, int y) {
     loc.add(x, y, 0);
@@ -84,31 +81,22 @@ public class PC extends Characters {
     switch(k) {
     case '1':
       return moveHelper(map, Monsters, -1, 1);
-      //break;
     case '2':
       return moveHelper(map, Monsters, 0, 1);
-      //break;
     case '3':
       return moveHelper(map, Monsters, 1, 1);
-      //break;
     case '4':
       return moveHelper(map, Monsters, -1, 0);
-      //break;
     case '5':
       return "you wait";
-      //break;
     case '6':
       return moveHelper(map, Monsters, 1, 0);
-      //break;
     case '7':
       return moveHelper(map, Monsters, -1, -1);
-      //break;
     case '8':
       return moveHelper(map, Monsters, 0, -1);
-      //break;
     case '9':
       return moveHelper(map, Monsters, 1, -1);
-      //break;
     }
     return "didn't move";
   }
@@ -141,23 +129,25 @@ public class Monster extends Characters {
     map[getX()][getY()].setEmpty(false);
     map[getX()][getY()].setMonster(i);
   }
-  public void move4monsters(Terrain[][] map, Characters player, boolean display) {
+  public void move(Terrain[][] map, Characters player, int i) {
     int x = int(Math.signum(float(player.getX()-getX())));
     int y =  int(Math.signum(float(player.getY()-getY())));
-    if (display==true && detectWall(map,x,y)) {
-      map[getX()][getY()].setEmpty(true);
-      move4monstersHelper(x, y);
-      map[getX()][getY()].setEmpty(false);
+    if (display && !detectWall(map, x, y)) {
+      if (player.getX() == getX() + x && player.getY() == getY() + y)
+        attack(map, player, 1);
+      else {
+        map[getX()][getY()].setEmpty(true);
+        addLoc(x, y);
+        map[getX()][getY()].setEmpty(false);
+        map[getX()][getY()].setMonster(i);
+      }
     } else {
-      int a = r.nextInt(3)-1;
-      int b = r.nextInt(3)-1;
+      int a = int(random(3))-1;
+      int b = int(random(3))-1;
       if (!detectWall(map, a, b)) {
-        move4monstersHelper(a, b);
+        addLoc(a, b);
       }
     }
   }
-    public void move4monstersHelper(int x, int y) {
-      addLoc(x, y);
-    }
-  }
+}
 

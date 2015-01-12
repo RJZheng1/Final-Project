@@ -119,6 +119,8 @@ void los(int xstart, int ystart, int xend, int yend) {
   int ychange = int(Math.signum(yend - ystart));
   float m = slope;
   int mturn = int(Math.signum(slope));
+  for (Monster i : Monsters)
+    i.setDisplay(false);
   while (xstart != xend || ystart != yend) {
     if (map[xstart][ystart].getType() == '#')
       break;
@@ -133,24 +135,16 @@ void los(int xstart, int ystart, int xend, int yend) {
       xstart += xchange;
       m += slope;
     }
-    if (map[xstart][ystart].isEmpty()){
+    if (map[xstart][ystart].isEmpty()) {
       text(map[xstart][ystart].getType(), xstart*16, ystart*16+16);
-    }else if (!Monsters.get(map[xstart][ystart].getMonster()).isDead()){
-      Monsters.get(map[xstart][ystart].getMonster()).display();
+    } else if (!Monsters.get(map[xstart][ystart].getMonster()).isDead())
       Monsters.get(map[xstart][ystart].getMonster()).setDisplay(true);
-    }
   }
 }
 
 void keyPressed() {
-  if (key >= '0' && key <= '9') {
-    text[2]=text[1];
-    text[1]=text[0];
-    text[0]=Player.move(map, Monsters, key);
-    for ( Monster i : Monsters ){
-      i.move4monsters(map,Player,i.getDisplay());
-    }
-  }
+  if (key >= '1' && key <= '9')
+    Player.move(map, Monsters, key);
   redraw();
 }
 
@@ -159,11 +153,12 @@ void draw() {
   textSize(16);
   fov(Player.getX(), Player.getY(), 10);
   Player.display();
+  for (int i = 0;i < Monsters.size();i++) {
+    Monsters.get(i).move(map, Player,i);
+    if (Monsters.get(i).getDisplay())
+    Monsters.get(i).display();
+  }
   fill(255, 255, 255);
   rect(0, 735, 800, 3);
-  //  for (int i = 2; i >=0; i++) {
-  //    int count=2-i;
-  //    text(text[i], 0, 736);
-  //  }
 }
 

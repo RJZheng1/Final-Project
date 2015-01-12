@@ -114,7 +114,7 @@ public class PC extends Characters {
   }
   public String moveHelper(Terrain[][] map, ArrayList<Monster> Monsters, int x, int y) {
     if (detectMonster(map, x, y) && !Monsters.get(getMonster(map, x, y)).isDead()) {
-      return attack(map,Monsters.get(getMonster(map, x, y)), 20);
+      return attack(map, Monsters.get(getMonster(map, x, y)), 20);
     } else if (!detectWall(map, x, y)) {
       map[getX()][getY()].setEmpty(true);
       Player.addLoc(x, y);
@@ -130,10 +130,10 @@ public class Monster extends Characters {
     super(name, symbol, 20, 0, 0);
     display=false;
   }
-  public void setDisplay(boolean i){
+  public void setDisplay(boolean i) {
     display=i;
   }
-  public boolean getDisplay(){
+  public boolean getDisplay() {
     return display;
   }
   public void spawn(Terrain[][] map, int i) {
@@ -141,17 +141,23 @@ public class Monster extends Characters {
     map[getX()][getY()].setEmpty(false);
     map[getX()][getY()].setMonster(i);
   }
-  public void move4monsters(Terrain[][] map,Characters player, boolean display){
-    if (display==true){
+  public void move4monsters(Terrain[][] map, Characters player, boolean display) {
+    int x = int(Math.signum(float(player.getX()-getX())));
+    int y =  int(Math.signum(float(player.getY()-getY())));
+    if (display==true && detectWall(map,x,y)) {
       map[getX()][getY()].setEmpty(true);
-      move4monstersHelper(int(Math.signum(float(player.getX()-getX()))),int(Math.signum(float(player.getY()-getY()))));
+      move4monstersHelper(x, y);
       map[getX()][getY()].setEmpty(false);
-    }else{
-      move4monstersHelper(r.nextInt(3)-1,r.nextInt(3)-1);
+    } else {
+      int a = r.nextInt(3)-1;
+      int b = r.nextInt(3)-1;
+      if (!detectWall(map, a, b)) {
+        move4monstersHelper(a, b);
+      }
     }
   }
-  public void move4monstersHelper(int x, int y){
-    addLoc(x,y);
+    public void move4monstersHelper(int x, int y) {
+      addLoc(x, y);
+    }
   }
-}
 

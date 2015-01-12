@@ -27,6 +27,15 @@ History:
 	1/9/15:
 		the tile will display a . when the monster on it dies instead of displaying nothing
 		the tile the player spawns on will change to a . as soon as the player moves off it
+	1/11/15:
+		attempted to make the monsters move on their own, randomly if not in player's fov and towards the player if in the player's fov 
+		but bugs appeared:
+		    1. the monsters won't walk towards the player now that they can't walk through walls
+		    2. the monsters are appearing in the black space again...
+		    3. cant kill monsters either
+
+
+
 
 To-Do List:
 Flood-fill to make it so that the map cannot have isolated caves (find good algorithm)

@@ -4,9 +4,6 @@ make roguelike game
 Top-down tile-based turn-based RPG with randomly generated maps and perma-death.
 The goal is to find the stairs to go down the dungeon to find the treasure and then to escape.
 
-Version 1 (Post Winter Break)- Will generate and display the map (generator creates cave-like maps). The player can move around their character ('@') around the map and can attack monsters on the map.
-Version 2 (1/7/15) - Finally implemented line of sight and field of view.
-
 History:
 
 	Post Winter Break:
@@ -43,5 +40,5 @@ Stats?
 Leveling up (both character's level and going up the dungeon)
 Scaling loot/monsters to go up with dungeon? (can hard-code it)
 Ranged combat?
-Add tomes/manuals/whatever that will allow the player to gain skills (maybe allow them to get them by leveling up as well)
+Maybe add tomes/manuals/whatever that will allow the player to gain skills (maybe allow them to get them by leveling up as well)
 

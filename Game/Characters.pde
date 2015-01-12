@@ -1,9 +1,11 @@
+import java.util.*;
 public abstract class Characters {
   private String name;
   private char symbol;
   private PVector loc;
   private int HP;
   private boolean dead;
+  Random r;
   public Characters() {
     this("Adventurer", '@', 20, 0, 0);
   }
@@ -13,6 +15,7 @@ public abstract class Characters {
     this.HP = HP;
     loc = new PVector(x, y);
     dead = false;
+    r=new Random();
   }
   public void addLoc(int x, int y) {
     loc.add(x, y, 0);
@@ -122,13 +125,31 @@ public class PC extends Characters {
 }
 
 public class Monster extends Characters {
+  private boolean display;
   public Monster(String name, char symbol) {
     super(name, symbol, 20, 0, 0);
+    display=false;
+  }
+  public void setDisplay(boolean i){
+    display=i;
+  }
+  public boolean getDisplay(){
+    return display;
   }
   public void spawn(Terrain[][] map, int i) {
     super.spawn(map);
     map[getX()][getY()].setEmpty(false);
     map[getX()][getY()].setMonster(i);
+  }
+  public void move4monsters(boolean display){
+    if (display==true){
+      move4monstersHelper(1,1);
+    }else{
+      move4monstersHelper(r.nextInt(3)-1,r.nextInt(3)-1);
+    }
+  }
+  public void move4monstersHelper(int x, int y){
+    addLoc(getX()+x,getY()+y);
   }
 }
 

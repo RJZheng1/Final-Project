@@ -148,7 +148,7 @@ void keyPressed() {
     text[1]=text[0];
     text[0]=Player.move(map, Monsters, key);
     for ( Monster i : Monsters ){
-      i.move4monsters(i.getDisplay());
+      i.move4monsters(map,Player,i.getDisplay());
     }
   }
   redraw();

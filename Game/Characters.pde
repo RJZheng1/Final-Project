@@ -141,15 +141,17 @@ public class Monster extends Characters {
     map[getX()][getY()].setEmpty(false);
     map[getX()][getY()].setMonster(i);
   }
-  public void move4monsters(boolean display){
+  public void move4monsters(Terrain[][] map,Characters player, boolean display){
     if (display==true){
-      move4monstersHelper(1,1);
+      map[getX()][getY()].setEmpty(true);
+      move4monstersHelper(int(Math.signum(float(player.getX()-getX()))),int(Math.signum(float(player.getY()-getY()))));
+      map[getX()][getY()].setEmpty(false);
     }else{
       move4monstersHelper(r.nextInt(3)-1,r.nextInt(3)-1);
     }
   }
   public void move4monstersHelper(int x, int y){
-    addLoc(getX()+x,getY()+y);
+    addLoc(x,y);
   }
 }
 

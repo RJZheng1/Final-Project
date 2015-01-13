@@ -49,7 +49,7 @@ int checkWalls(int x, int y, int range) {
   return count;
 }
 
-void generateLadder(Terrain[][] map) {
+void generateLadder() {
   int x;
   int y;
   while (true) {
@@ -93,10 +93,10 @@ void generateMap() {
   }
   Player.spawn(map);
   for (int i = 0; i < 100; i++) {
-    Monsters.add(new Monster("Zombie", 'Z'));
-    Monsters.get(i).spawn(map, i);
+    Monsters.add(new Monster("Zombie", 'Z', i));
+    Monsters.get(i).spawn(map);
   }
-  generateLadder(map);
+  generateLadder();
   level++;
 }
 
@@ -119,8 +119,6 @@ void los(int xstart, int ystart, int xend, int yend) {
   int ychange = int(Math.signum(yend - ystart));
   float m = slope;
   int mturn = int(Math.signum(slope));
-  for (Monster i : Monsters)
-    i.setDisplay(false);
   while (xstart != xend || ystart != yend) {
     if (map[xstart][ystart].getType() == '#')
       break;
@@ -137,8 +135,10 @@ void los(int xstart, int ystart, int xend, int yend) {
     }
     if (map[xstart][ystart].isEmpty()) {
       text(map[xstart][ystart].getType(), xstart*16, ystart*16+16);
-    } else if (!Monsters.get(map[xstart][ystart].getMonster()).isDead())
-      Monsters.get(map[xstart][ystart].getMonster()).setDisplay(true);
+    } else if (!Monsters.get(map[xstart][ystart].getMonster()).isDead() && !Monsters.get(map[xstart][ystart].getMonster()).getDisplay()) {
+      Monsters.get(map[xstart][ystart].getMonster()).move(map, Player);
+      Monsters.get(map[xstart][ystart].getMonster()).display();
+    }
   }
 }
 
@@ -151,13 +151,10 @@ void keyPressed() {
 void draw() {
   background(0);
   textSize(16);
+  for (Monster m : Monsters)
+    m.setDisplay(false);
   fov(Player.getX(), Player.getY(), 10);
   Player.display();
-  for (int i = 0;i < Monsters.size();i++) {
-    Monsters.get(i).move(map, Player,i);
-    if (Monsters.get(i).getDisplay())
-    Monsters.get(i).display();
-  }
   fill(255, 255, 255);
   rect(0, 735, 800, 3);
 }

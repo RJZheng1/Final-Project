@@ -114,9 +114,15 @@ public class PC extends Characters {
 
 public class Monster extends Characters {
   private boolean display;
-  public Monster(String name, char symbol) {
+  int num;
+  public Monster(String name, char symbol, int num) {
     super(name, symbol, 20, 0, 0);
     display=false;
+    this.num = num;
+  }
+  public void display(){
+    super.display();
+    display = true;
   }
   public void setDisplay(boolean i) {
     display=i;
@@ -124,28 +130,22 @@ public class Monster extends Characters {
   public boolean getDisplay() {
     return display;
   }
-  public void spawn(Terrain[][] map, int i) {
+  public void spawn(Terrain[][] map) {
     super.spawn(map);
     map[getX()][getY()].setEmpty(false);
-    map[getX()][getY()].setMonster(i);
+    map[getX()][getY()].setMonster(num);
   }
-  public void move(Terrain[][] map, Characters player, int i) {
+  public void move(Terrain[][] map, Characters player) {
     int x = int(Math.signum(float(player.getX()-getX())));
     int y =  int(Math.signum(float(player.getY()-getY())));
-    if (display && !detectWall(map, x, y)) {
+    if (!detectWall(map, x, y) && map[getX()+x][getY()+y].isEmpty()) {
       if (player.getX() == getX() + x && player.getY() == getY() + y)
         attack(map, player, 1);
       else {
         map[getX()][getY()].setEmpty(true);
         addLoc(x, y);
         map[getX()][getY()].setEmpty(false);
-        map[getX()][getY()].setMonster(i);
-      }
-    } else {
-      int a = int(random(3))-1;
-      int b = int(random(3))-1;
-      if (!detectWall(map, a, b)) {
-        addLoc(a, b);
+        map[getX()][getY()].setMonster(num);
       }
     }
   }

@@ -69,7 +69,7 @@ public abstract class Characters {
       other.setDead(true);
       map[other.getX()][other.getY()].setEmpty(true);
     }
-    return name + " did " + dmg + " damage to " + other.getName();
+    return name + " did " + dmg + " damage to " + other.getName() + ". ";
   }
 }
 
@@ -88,7 +88,7 @@ public class PC extends Characters {
     case '4':
       return moveHelper(map, Monsters, -1, 0);
     case '5':
-      return "you wait";
+      return "";
     case '6':
       return moveHelper(map, Monsters, 1, 0);
     case '7':
@@ -98,7 +98,7 @@ public class PC extends Characters {
     case '9':
       return moveHelper(map, Monsters, 1, -1);
     }
-    return "didn't move";
+    return "";
   }
   public String moveHelper(Terrain[][] map, ArrayList<Monster> Monsters, int x, int y) {
     if (detectMonster(map, x, y) && !Monsters.get(getMonster(map, x, y)).isDead()) {
@@ -106,9 +106,11 @@ public class PC extends Characters {
     } else if (!detectWall(map, x, y)) {
       map[getX()][getY()].setEmpty(true);
       Player.addLoc(x, y);
-      return "cant move";
+      if(map[getX()+x][getY()+y].getType() == '>')
+        return "You see the ladder to the next level. Would you like to go down? Press 'y' to do so.";
+      return "";
     }
-    return "you walked";
+    return "";
   }
 }
 
@@ -120,7 +122,7 @@ public class Monster extends Characters {
     display=false;
     this.num = num;
   }
-  public void display(){
+  public void display() {
     super.display();
     display = true;
   }
@@ -135,12 +137,12 @@ public class Monster extends Characters {
     map[getX()][getY()].setEmpty(false);
     map[getX()][getY()].setMonster(num);
   }
-  public void move(Terrain[][] map, Characters player) {
+  public String move(Terrain[][] map, Characters player) {
     int x = int(Math.signum(float(player.getX()-getX())));
     int y =  int(Math.signum(float(player.getY()-getY())));
     if (!detectWall(map, x, y) && map[getX()+x][getY()+y].isEmpty()) {
       if (player.getX() == getX() + x && player.getY() == getY() + y)
-        attack(map, player, 1);
+        return attack(map, player, 1);
       else {
         map[getX()][getY()].setEmpty(true);
         addLoc(x, y);
@@ -148,6 +150,6 @@ public class Monster extends Characters {
         map[getX()][getY()].setMonster(num);
       }
     }
+    return "";
   }
 }
-

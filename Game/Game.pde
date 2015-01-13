@@ -2,7 +2,7 @@ PC Player;
 Terrain[][] map;
 ArrayList<Monster> Monsters;
 int level=0;
-String[] text = new String[3];
+String text;
 
 void setup() {
   noLoop();
@@ -10,7 +10,12 @@ void setup() {
   map = new Terrain[45][45];
   Player = new PC("Player");
   Monsters = new ArrayList<Monster>();
+  for (int x = 0; x < map.length; x++) {
+    for (int y = 0; y < map[x].length; y++)
+      map[x][y] = new Terrain();
+  }
   generateMap();
+  text = "You begin your descent into the cave, hungry for the legendary treasure of the ruthless Baron. The walls are damp and slimy, but you are undaunted.";
 }
 
 boolean inBounds(int x, int y) {
@@ -67,7 +72,6 @@ void generateMap() {
   int[][] count2 = new int[45][45];
   for (int x = 0; x < map.length; x++) {
     for (int y = 0; y < map[x].length; y++) {
-      map[x][y] = new Terrain();
       if (x==0 || x==map[x].length-1 || y==0 || y==map.length-1 || random(100)<40)
         map[x][y].setType('#');
       else
@@ -136,7 +140,7 @@ void los(int xstart, int ystart, int xend, int yend) {
     if (map[xstart][ystart].isEmpty()) {
       text(map[xstart][ystart].getType(), xstart*16, ystart*16+16);
     } else if (!Monsters.get(map[xstart][ystart].getMonster()).isDead() && !Monsters.get(map[xstart][ystart].getMonster()).getDisplay()) {
-      Monsters.get(map[xstart][ystart].getMonster()).move(map, Player);
+      text += Monsters.get(map[xstart][ystart].getMonster()).move(map, Player);
       Monsters.get(map[xstart][ystart].getMonster()).display();
     }
   }
@@ -144,7 +148,9 @@ void los(int xstart, int ystart, int xend, int yend) {
 
 void keyPressed() {
   if (key >= '1' && key <= '9')
-    Player.move(map, Monsters, key);
+    text = Player.move(map, Monsters, key);
+  else if (key == 'y' && map[Player.getX()][Player.getY()].getType() == '>')
+    generateMap();
   redraw();
 }
 
@@ -157,5 +163,6 @@ void draw() {
   Player.display();
   fill(255, 255, 255);
   rect(0, 735, 800, 3);
+  text(text, 0, 736, 800, 56);
 }
 

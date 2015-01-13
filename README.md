@@ -33,7 +33,8 @@ History:
 		    1. the monsters won't walk towards the player now that they can't walk through walls
 		    2. the monsters are appearing in the black space again...
 		    3. cant kill monsters either
-
+	1/13/15:
+		worked some more on monster movement
 
 
 

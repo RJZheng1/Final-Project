@@ -4,13 +4,17 @@ public abstract class Characters {
   private PVector loc;
   private int HP;
   private boolean dead;
+  private float speed;
+  private float turnCounter;
   public Characters() {
-    this("Adventurer", '@', 20, 0, 0);
+    this("Adventurer", '@', 20, 1, 0, 0);
   }
-  public Characters(String name, char symbol, int HP, int x, int y) {
+  public Characters(String name, char symbol, int HP, float speed, int x, int y) {
     this.name = name;
     this.symbol = symbol;
     this.HP = HP;
+    this.speed = speed;
+    turnCounter = 0;
     loc = new PVector(x, y);
     dead = false;
   }
@@ -33,7 +37,7 @@ public abstract class Characters {
       x = int(random(map.length-1)+1);
       y = int(random(map[x].length-1)+1);
       if (map[x][y].getType() != '#') {
-        addLoc(x, y);
+        loc.set(x, y);
         break;
       }
     }
@@ -71,13 +75,25 @@ public abstract class Characters {
     }
     return name + " did " + dmg + " damage to " + other.getName() + ". ";
   }
+  public void turnUp() {
+    turnCounter += speed;
+  }
+  public void turnDown() {
+    turnCounter -= 1.0;
+  }
+  public float getTurnCounter() {
+    return turnCounter;
+  }
 }
 
 public class PC extends Characters {
   public PC(String name) {
-    super(name, '@', 20, 0, 0);
+    super(name, '@', 20, 1, 0, 0);
   }
   public String move(Terrain[][] map, ArrayList<Monster> Monsters, char k) {
+    turnUp();
+    if (getTurnCounter() < 1)
+      return "";
     switch(k) {
     case '1':
       return moveHelper(map, Monsters, -1, 1);
@@ -101,12 +117,13 @@ public class PC extends Characters {
     return "";
   }
   public String moveHelper(Terrain[][] map, ArrayList<Monster> Monsters, int x, int y) {
+    turnDown();
     if (detectMonster(map, x, y) && !Monsters.get(getMonster(map, x, y)).isDead()) {
       return attack(map, Monsters.get(getMonster(map, x, y)), 20);
     } else if (!detectWall(map, x, y)) {
       map[getX()][getY()].setEmpty(true);
       Player.addLoc(x, y);
-      if(map[getX()+x][getY()+y].getType() == '>')
+      if (map[getX()][getY()].getType() == '>')
         return "You see the ladder to the next level. Would you like to go down? Press 'y' to do so.";
       return "";
     }
@@ -117,8 +134,8 @@ public class PC extends Characters {
 public class Monster extends Characters {
   private boolean display;
   int num;
-  public Monster(String name, char symbol, int num) {
-    super(name, symbol, 20, 0, 0);
+  public Monster(String name, char symbol, float speed, int num) {
+    super(name, symbol, 20, speed, 0, 0);
     display=false;
     this.num = num;
   }
@@ -138,6 +155,10 @@ public class Monster extends Characters {
     map[getX()][getY()].setMonster(num);
   }
   public String move(Terrain[][] map, Characters player) {
+    turnUp();
+    if (getTurnCounter() < 1)
+      return "";
+    turnDown();
     int x = int(Math.signum(float(player.getX()-getX())));
     int y =  int(Math.signum(float(player.getY()-getY())));
     if (!detectWall(map, x, y) && map[getX()+x][getY()+y].isEmpty()) {
@@ -153,3 +174,4 @@ public class Monster extends Characters {
     return "";
   }
 }
+

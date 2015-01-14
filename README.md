@@ -33,11 +33,15 @@ History:
 		    1. the monsters won't walk towards the player now that they can't walk through walls
 		    2. the monsters are appearing in the black space again...
 		    3. cant kill monsters either
-	1/13/15:
+	1/12/15:
 		worked some more on monster movement
-	1/14/15:
+	1/13/15:
 		Text display will show damage you do and damage you get taken.
 		In-progress ladder. Crashes game. DO NOT PRESS Y YET.
+	1/14/15:
+		Ladders work. Will generate new map.
+		Announces what level you are on.
+		Speed thingy done. Monsters all currently move 0.5 speed.
 
 To-Do List:
 Flood-fill to make it so that the map cannot have isolated caves (find good algorithm)

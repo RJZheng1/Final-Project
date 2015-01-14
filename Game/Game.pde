@@ -68,6 +68,10 @@ void generateLadder() {
 }
 
 void generateMap() {
+  for (int x = 0; x < map.length; x++) {
+    for (int y = 0; y < map[x].length; y++)
+      map[x][y].setEmpty(true);
+  }
   int[][] count1 = new int[45][45];
   int[][] count2 = new int[45][45];
   for (int x = 0; x < map.length; x++) {
@@ -96,12 +100,14 @@ void generateMap() {
     }
   }
   Player.spawn(map);
+  Monsters.clear();
   for (int i = 0; i < 100; i++) {
-    Monsters.add(new Monster("Zombie", 'Z', i));
+    Monsters.add(new Monster("Zombie", 'Z', 0.5, i));
     Monsters.get(i).spawn(map);
   }
   generateLadder();
   level++;
+  text = "You are on level " + level;
 }
 
 void fov(int x, int y, int r) {

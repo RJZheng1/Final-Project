@@ -4,7 +4,7 @@ ArrayList<Monster> Monsters;
 int level=0;
 String text;
 ArrayList<String> todisplay=new ArrayList<String>(10);
-Terrain[][] finalmap;
+
 void setup() {
   noLoop();
   size(1200, 800);
@@ -19,6 +19,7 @@ void setup() {
   generateMap();
   text = "You begin your descent into the cave, hungry for the legendary treasure of the ruthless Baron. The walls are damp and slimy, but you are undaunted.";
 }
+
 boolean inBounds(int x, int y) {
   return x >= 0 && x < map.length && y >= 0 && y < map[x].length;
 }

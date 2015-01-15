@@ -42,6 +42,9 @@ History:
 		Ladders work. Will generate new map.
 		Announces what level you are on.
 		Speed thingy done. Monsters all currently move 0.5 speed.
+	1/15/15:
+		Added weapons. Armors don't work yet. They don't decrease the damage you do.
+		Added final level.
 
 To-Do List:
 Flood-fill to make it so that the map cannot have isolated caves (find good algorithm)

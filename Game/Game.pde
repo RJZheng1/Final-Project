@@ -4,10 +4,12 @@ ArrayList<Monster> Monsters;
 int level=0;
 String text;
 ArrayList<String> todisplay=new ArrayList<String>(10);
+Terrain[][] finalmap;
 void setup() {
   noLoop();
   size(1200, 800);
   map = new Terrain[45][45];
+  finalmap=new Terrain[45][45];
   Player = new PC("Player");
   Monsters = new ArrayList<Monster>();
   for (int x = 0; x < map.length; x++) {
@@ -67,6 +69,7 @@ void generateLadder() {
 }
 
 void generateMap() {
+  if ( level != 10 ) {
   for (int x = 0; x < map.length; x++) {
     for (int y = 0; y < map[x].length; y++)
       map[x][y].setEmpty(true);
@@ -101,17 +104,16 @@ void generateMap() {
   Player.spawn(map);
   Monsters.clear();
   level++;
-  if ( level != 10 ) {
     for (int i = 0; i < 100; i++) {
       Monsters.add(new Monster("Zombie", 'Z', 0.5, i));
       if ( Player.getSpeed()>1 )
         Monsters.get(i).setSpeed(Monsters.get(i).getSpeed()/Player.getSpeed());
       Monsters.get(i).spawn(map);
-    }
-  } else if ( level == 10 ) {
-  }
   generateLadder();
   text = "You are on level " + level;
+  } else if ( level == 10 ) {
+    
+  }
 }
 
 void fov(int x, int y, int r) {

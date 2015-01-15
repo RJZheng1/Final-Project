@@ -69,50 +69,84 @@ void generateLadder() {
 }
 
 void generateMap() {
-  if ( level != 10 ) {
-  for (int x = 0; x < map.length; x++) {
-    for (int y = 0; y < map[x].length; y++)
-      map[x][y].setEmpty(true);
-  }
-  int[][] count1 = new int[45][45];
-  int[][] count2 = new int[45][45];
-  for (int x = 0; x < map.length; x++) {
-    for (int y = 0; y < map[x].length; y++) {
-      if (x==0 || x==map[x].length-1 || y==0 || y==map.length-1 || random(100)<40)
-        map[x][y].setType('#');
-      else
-        map[x][y].setType('.');
+  level++;
+  if ( level != 1 ) {
+    for (int x = 0; x < map.length; x++) {
+      for (int y = 0; y < map[x].length; y++)
+        map[x][y].setEmpty(true);
     }
-  }
-  for (int i = 0; i < 7; i++) {
-    for (int x = 1; x < map.length-1; x++) {
-      for (int y = 1; y < map[x].length-1; y++) {
-        count1[x][y] = checkWalls(x, y, 1);
-        if (i < 4)
-          count2[x][y] = checkWalls(x, y, 2);
-      }
-    }
-    for (int x = 1; x < count1.length-1; x++) {
-      for (int y = 1; y < count1[x].length-1; y++) {
-        if ((count1[x][y]>=5) || (i<4 && count2[x][y]<=2))
+    int[][] count1 = new int[45][45];
+    int[][] count2 = new int[45][45];
+    for (int x = 0; x < map.length; x++) {
+      for (int y = 0; y < map[x].length; y++) {
+        if (x==0 || x==map[x].length-1 || y==0 || y==map.length-1 || random(100)<40)
           map[x][y].setType('#');
         else
           map[x][y].setType('.');
       }
     }
-  }
-  Player.spawn(map);
-  Monsters.clear();
-  level++;
+    for (int i = 0; i < 7; i++) {
+      for (int x = 1; x < map.length-1; x++) {
+        for (int y = 1; y < map[x].length-1; y++) {
+          count1[x][y] = checkWalls(x, y, 1);
+          if (i < 4)
+            count2[x][y] = checkWalls(x, y, 2);
+        }
+      }
+      for (int x = 1; x < count1.length-1; x++) {
+        for (int y = 1; y < count1[x].length-1; y++) {
+          if ((count1[x][y]>=5) || (i<4 && count2[x][y]<=2))
+            map[x][y].setType('#');
+          else
+            map[x][y].setType('.');
+        }
+      }
+    }
+    Player.spawn(map);
+    Monsters.clear();
     for (int i = 0; i < 100; i++) {
       Monsters.add(new Monster("Zombie", 'Z', 0.5, i));
-      if ( Player.getSpeed()>1 )
-        Monsters.get(i).setSpeed(Monsters.get(i).getSpeed()/Player.getSpeed());
       Monsters.get(i).spawn(map);
-  generateLadder();
-  text = "You are on level " + level;
-  } else if ( level == 10 ) {
-    
+    }
+    generateLadder();
+    text = "You are on level " + level;
+  } else if ( level == 1 ) {
+    Player.setLoc(23,23);
+    while(true){
+      int a = 13;
+      for( int b = 0 ; b < map[a].length ; b++){
+        map[a][b].setType('#');
+      }
+      break;
+    }
+    while(true){
+      int a = map.length-12;
+      for( int b = 0 ; b < map[a].length ; b++){
+        map[a][b].setType('#');
+      }
+      break;
+    }
+    while(true){
+      int a = 13;
+      for( int b = 0 ; b < map[a].length ; b++){
+        map[b][a].setType('#');
+      }
+      break;
+    }
+    while(true){
+      int a = map.length-12;
+      for( int b = 0 ; b < map[a].length ; b++){
+        map[b][a].setType('#');
+      }
+      break;
+    }
+  }
+  for ( int a = 0 ; a < map.length; a++ ){
+    for ( int b = 0 ; b < map[a].length ; b++){
+      if ( map[a][b].getType()!= '#' ){
+        map[a][b].setType('.');
+      }
+    }
   }
 }
 
@@ -165,14 +199,14 @@ void keyPressed() {
     generateMap();
   redraw();
 }
-void inMenu(){
+void inMenu() {
   todisplay.clear();
   todisplay.add("Player");
   todisplay.add("HP: "+Player.getHP());
   todisplay.add("Speed: "+Player.getSpeed());
 }
 void playerMenu(int xstart, int ystart) {
-  for ( int i = 0; i < todisplay.size(); i++) {
+  for ( int i = 0; i < todisplay.size (); i++) {
     text(todisplay.get(i), xstart+4, ystart+i*32+16);
   }
 }

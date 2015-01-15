@@ -43,6 +43,9 @@ public abstract class Characters {
     }
     map[x][y].setEmpty(false);
   }
+  public void setLoc(int x, int y){
+    loc.set(x,y);
+  }
   public boolean detectWall(Terrain[][] map, int x, int y) {
     return map[getX()+x][getY()+y].getType() == '#';
   }

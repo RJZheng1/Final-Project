@@ -87,14 +87,18 @@ public abstract class Characters {
   public float getSpeed() {
     return speed;
   }
-  public void setSpeed(float speed){
+  public void setSpeed(float speed) {
     this.speed=speed;
   }
 }
 
 public class PC extends Characters {
+  Item weapon;
+  Item armor;
   public PC(String name) {
-    super(name, '@', 20, 2, 0, 0);
+    super(name, '@', 20, 1, 0, 0);
+    weapon = new Item("Fists", 2, 1);
+    armor = new Item("Rags", 1, 1);
   }
   public String move(Terrain[][] map, ArrayList<Monster> Monsters, char k) {
     turnUp();
@@ -125,7 +129,7 @@ public class PC extends Characters {
   public String moveHelper(Terrain[][] map, ArrayList<Monster> Monsters, int x, int y) {
     turnDown();
     if (detectMonster(map, x, y) && !Monsters.get(getMonster(map, x, y)).isDead()) {
-      return attack(map, Monsters.get(getMonster(map, x, y)), 20);
+      return attack(map, Monsters.get(getMonster(map, x, y)), weapon.getNum());
     } else if (!detectWall(map, x, y)) {
       map[getX()][getY()].setEmpty(true);
       Player.addLoc(x, y);
@@ -134,6 +138,9 @@ public class PC extends Characters {
       return "";
     }
     return "";
+  }
+  public int defense() {
+    return armor.getNum();
   }
 }
 
@@ -178,6 +185,15 @@ public class Monster extends Characters {
       }
     }
     return "";
+  }
+  public String attack(Terrain[][] map, PC other, int dmg) {
+    int damage = dmg - other.defense();
+    if (damage < 0)
+      damage = 0;
+    other.setHP(other.getHP()-dmg);
+    if (other.getHP() <= 0)
+      other.setDead(true);
+    return getName() + " did " + damage + " damage to " + other.getName() + ". ";
   }
 }
 

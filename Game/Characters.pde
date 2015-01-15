@@ -75,8 +75,8 @@ public abstract class Characters {
     }
     return name + " did " + dmg + " damage to " + other.getName() + ". ";
   }
-  public void turnUp() {
-    turnCounter += speed;
+  public void turnUp(float x) {
+    turnCounter += speed/x;
   }
   public void turnDown() {
     turnCounter -= 1.0;
@@ -101,7 +101,7 @@ public class PC extends Characters {
     armor = new Item("Rags", 1, 1);
   }
   public String move(Terrain[][] map, ArrayList<Monster> Monsters, char k) {
-    turnUp();
+    turnUp(1);
     if (getTurnCounter() < 1)
       return "";
     switch(k) {
@@ -168,7 +168,7 @@ public class Monster extends Characters {
     map[getX()][getY()].setMonster(num);
   }
   public String move(Terrain[][] map, Characters player) {
-    turnUp();
+    turnUp(player.getSpeed());
     if (getTurnCounter() < 1)
       return "";
     turnDown();

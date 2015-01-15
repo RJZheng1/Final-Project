@@ -84,11 +84,17 @@ public abstract class Characters {
   public float getTurnCounter() {
     return turnCounter;
   }
+  public float getSpeed() {
+    return speed;
+  }
+  public void setSpeed(float speed){
+    this.speed=speed;
+  }
 }
 
 public class PC extends Characters {
   public PC(String name) {
-    super(name, '@', 20, 1, 0, 0);
+    super(name, '@', 20, 2, 0, 0);
   }
   public String move(Terrain[][] map, ArrayList<Monster> Monsters, char k) {
     turnUp();

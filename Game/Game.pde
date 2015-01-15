@@ -101,12 +101,18 @@ void generateMap() {
   }
   Player.spawn(map);
   Monsters.clear();
-  for (int i = 0; i < 100; i++) {
-    Monsters.add(new Monster("Zombie", 'Z', 0.5, i));
-    Monsters.get(i).spawn(map);
+  level++;
+  if ( level != 10 ) {
+    for (int i = 0; i < 100; i++) {
+      Monsters.add(new Monster("Zombie", 'Z', 0.5, i));
+      if ( Player.getSpeed()>1 )
+        Monsters.get(i).setSpeed(Monsters.get(i).getSpeed()/Player.getSpeed());
+      Monsters.get(i).spawn(map);
+    }
+  }else if ( level == 10 ){
+    
   }
   generateLadder();
-  level++;
   text = "You are on level " + level;
 }
 

@@ -3,10 +3,10 @@ Terrain[][] map;
 ArrayList<Monster> Monsters;
 int level=0;
 String text;
-
+ArrayList<String> todisplay=new ArrayList<String>(10);
 void setup() {
   noLoop();
-  size(800, 800);
+  size(1200, 800);
   map = new Terrain[45][45];
   Player = new PC("Player");
   Monsters = new ArrayList<Monster>();
@@ -17,7 +17,6 @@ void setup() {
   generateMap();
   text = "You begin your descent into the cave, hungry for the legendary treasure of the ruthless Baron. The walls are damp and slimy, but you are undaunted.";
 }
-
 boolean inBounds(int x, int y) {
   return x >= 0 && x < map.length && y >= 0 && y < map[x].length;
 }
@@ -109,8 +108,7 @@ void generateMap() {
         Monsters.get(i).setSpeed(Monsters.get(i).getSpeed()/Player.getSpeed());
       Monsters.get(i).spawn(map);
     }
-  }else if ( level == 10 ){
-    
+  } else if ( level == 10 ) {
   }
   generateLadder();
   text = "You are on level " + level;
@@ -165,7 +163,17 @@ void keyPressed() {
     generateMap();
   redraw();
 }
-
+void inMenu(){
+  todisplay.clear();
+  todisplay.add("Player");
+  todisplay.add("HP: "+Player.getHP());
+  todisplay.add("Speed: "+Player.getSpeed());
+}
+void playerMenu(int xstart, int ystart) {
+  for ( int i = 0; i < todisplay.size(); i++) {
+    text(todisplay.get(i), xstart+4, ystart+i*32+16);
+  }
+}
 void draw() {
   background(0);
   textSize(16);
@@ -176,5 +184,9 @@ void draw() {
   fill(255, 255, 255);
   rect(0, 735, 800, 3);
   text(text, 0, 736, 800, 56);
+  rect(800, 0, 3, 800);
+  rect(800, 600, 1200, 3);
+  inMenu();
+  playerMenu(800, 0);
 }
 

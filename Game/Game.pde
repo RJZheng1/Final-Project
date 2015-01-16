@@ -140,13 +140,6 @@ void generateMap() {
       }
       break;
     }
-    for ( int a = 0; a < map.length; a++ ) {
-      for ( int b = 0; b < map[a].length; b++) {
-        if ( map[a][b].getType()!= '#' ) {
-          map[a][b].setType('.');
-        }
-      }
-    }
   }
 }
 

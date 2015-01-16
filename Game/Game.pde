@@ -5,11 +5,12 @@ int level=0;
 String text;
 ArrayList<String> todisplay=new ArrayList<String>(10);
 Terrain[][] finalmap;
+
 void setup() {
   noLoop();
   size(1200, 800);
   map = new Terrain[45][45];
-  finalmap=new Terrain[45][45];
+  finalmap =new Terrain[45][45];
   Player = new PC("Player");
   Monsters = new ArrayList<Monster>();
   for (int x = 0; x < map.length; x++) {
@@ -59,9 +60,9 @@ void generateLadder() {
   int x;
   int y;
   while (true) {
-    x = int(random(map.length-1)+1);
-    y = int(random(map[x].length-1)+1);
-    if (map[x][y].getType() != '#' && map[x][y].getType() != '@') {
+    x = int(random(map.length));
+    y = int(random(map[x].length));
+    if (map[x][y].getType() != '#' && map[x][y].isEmpty()) {
       map[x][y].setType('>');
       break;
     }
@@ -110,40 +111,40 @@ void generateMap() {
     }
     generateLadder();
     text = "You are on level " + level;
-  } else   {
-    Player.setLoc(23,23);
-    while(true){
+  } else {
+    Player.setLoc(23, 23);
+    while (true) {
       int a = 13;
-      for( int b = 0 ; b < map[a].length ; b++){
+      for ( int b = 0; b < map[a].length; b++) {
         map[a][b].setType('#');
       }
       break;
     }
-    while(true){
+    while (true) {
       int a = map.length-12;
-      for( int b = 0 ; b < map[a].length ; b++){
+      for ( int b = 0; b < map[a].length; b++) {
         map[a][b].setType('#');
       }
       break;
     }
-    while(true){
+    while (true) {
       int a = 13;
-      for( int b = 0 ; b < map[a].length ; b++){
+      for ( int b = 0; b < map[a].length; b++) {
         map[b][a].setType('#');
       }
       break;
     }
-    while(true){
+    while (true) {
       int a = map.length-12;
-      for( int b = 0 ; b < map[a].length ; b++){
+      for ( int b = 0; b < map[a].length; b++) {
         map[b][a].setType('#');
       }
       break;
     }
   }
-  for ( int a = 0 ; a < map.length; a++ ){
-    for ( int b = 0 ; b < map[a].length ; b++){
-      if ( map[a][b].getType()!= '#' ){
+  for ( int a = 0; a < map.length; a++ ) {
+    for ( int b = 0; b < map[a].length; b++) {
+      if ( map[a][b].getType()!= '#' ) {
         map[a][b].setType('.');
       }
     }

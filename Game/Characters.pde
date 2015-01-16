@@ -41,10 +41,9 @@ public abstract class Characters {
         break;
       }
     }
-    map[x][y].setEmpty(false);
   }
-  public void setLoc(int x, int y){
-    loc.set(x,y);
+  public void setLoc(int x, int y) {
+    loc.set(x, y);
   }
   public boolean detectWall(Terrain[][] map, int x, int y) {
     return map[getX()+x][getY()+y].getType() == '#';
@@ -100,8 +99,8 @@ public class PC extends Characters {
   Item armor;
   public PC(String name) {
     super(name, '@', 20, 1, 0, 0);
-    weapon = new Item("Fists", 2, 1);
-    armor = new Item("Rags", 1, 1);
+    weapon = new Item("Fists", 0, 20);
+    armor = new Item("Rags", 1, 0);
   }
   public String move(Terrain[][] map, ArrayList<Monster> Monsters, char k) {
     turnUp(1);
@@ -134,7 +133,6 @@ public class PC extends Characters {
     if (detectMonster(map, x, y) && !Monsters.get(getMonster(map, x, y)).isDead()) {
       return attack(map, Monsters.get(getMonster(map, x, y)), weapon.getNum());
     } else if (!detectWall(map, x, y)) {
-      map[getX()][getY()].setEmpty(true);
       Player.addLoc(x, y);
       if (map[getX()][getY()].getType() == '>')
         return "You see the ladder to the next level. Would you like to go down? Press 'y' to do so.";
@@ -170,7 +168,7 @@ public class Monster extends Characters {
     map[getX()][getY()].setEmpty(false);
     map[getX()][getY()].setMonster(num);
   }
-  public String move(Terrain[][] map, Characters player) {
+  public String move(Terrain[][] map, PC player) {
     turnUp(player.getSpeed());
     if (getTurnCounter() < 1)
       return "";
@@ -189,14 +187,15 @@ public class Monster extends Characters {
     }
     return "";
   }
-  public String attack(Terrain[][] map, PC other, int dmg) {
-    int damage = dmg - other.defense();
-    if (damage < 0)
-      damage = 0;
-    other.setHP(other.getHP()-dmg);
-    if (other.getHP() <= 0)
-      other.setDead(true);
-    return getName() + " did " + damage + " damage to " + other.getName() + ". ";
+  public String attack(Terrain[][] map, PC player, int dmg) {
+    dmg -= player.defense();
+    System.out.println(player.defense());
+    if (dmg < 0)
+      dmg = 0;
+    player.setHP(player.getHP()-dmg);
+    if (player.getHP() <= 0)
+      player.setDead(true);
+    return getName() + " did " + dmg + " damage to " + player.getName() + ". ";
   }
 }
 

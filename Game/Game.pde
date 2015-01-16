@@ -4,12 +4,10 @@ ArrayList<Monster> Monsters;
 int level=0;
 String text;
 ArrayList<String> todisplay=new ArrayList<String>(10);
-Terrain[][] finalmap;
 void setup() {
   noLoop();
   size(1200, 800);
   map = new Terrain[45][45];
-  finalmap=new Terrain[45][45];
   Player = new PC("Player");
   Monsters = new ArrayList<Monster>();
   for (int x = 0; x < map.length; x++) {
@@ -17,7 +15,7 @@ void setup() {
       map[x][y] = new Terrain();
   }
   generateMap();
-  text = "You begin your descent into the cave, hungry for the legendary treasure of the ruthless Baron. The walls are damp and slimy, but you are undaunted.";
+  text += "You begin your descent into the cave, hungry for the legendary treasure of the ruthless Baron. The walls are damp and slimy, but you are undaunted.";
 }
 boolean inBounds(int x, int y) {
   return x >= 0 && x < map.length && y >= 0 && y < map[x].length;
@@ -70,7 +68,8 @@ void generateLadder() {
 
 void generateMap() {
   level++;
-  if ( level != 2 ) {
+  text = "You are on level " + level +".";
+  if ( level != 1 ) {
     for (int x = 0; x < map.length; x++) {
       for (int y = 0; y < map[x].length; y++)
         map[x][y].setEmpty(true);
@@ -104,46 +103,45 @@ void generateMap() {
     }
     Player.spawn(map);
     Monsters.clear();
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 1; i++) {
       Monsters.add(new Monster("Zombie", 'Z', 0.5, i));
       Monsters.get(i).spawn(map);
     }
     generateLadder();
-    text = "You are on level " + level;
-  } else   {
-    Player.setLoc(23,23);
-    while(true){
+  } else {
+    Player.setLoc(23, 23);
+    while (true) {
       int a = 13;
-      for( int b = 0 ; b < map[a].length ; b++){
+      for ( int b = 0; b < map[a].length; b++) {
         map[a][b].setType('#');
       }
       break;
     }
-    while(true){
+    while (true) {
       int a = map.length-12;
-      for( int b = 0 ; b < map[a].length ; b++){
+      for ( int b = 0; b < map[a].length; b++) {
         map[a][b].setType('#');
       }
       break;
     }
-    while(true){
+    while (true) {
       int a = 13;
-      for( int b = 0 ; b < map[a].length ; b++){
+      for ( int b = 0; b < map[a].length; b++) {
         map[b][a].setType('#');
       }
       break;
     }
-    while(true){
+    while (true) {
       int a = map.length-12;
-      for( int b = 0 ; b < map[a].length ; b++){
+      for ( int b = 0; b < map[a].length; b++) {
         map[b][a].setType('#');
       }
       break;
     }
   }
-  for ( int a = 0 ; a < map.length; a++ ){
-    for ( int b = 0 ; b < map[a].length ; b++){
-      if ( map[a][b].getType()!= '#' ){
+  for ( int a = 0; a < map.length; a++ ) {
+    for ( int b = 0; b < map[a].length; b++) {
+      if ( map[a][b].getType()!= '#' ) {
         map[a][b].setType('.');
       }
     }

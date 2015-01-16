@@ -2,7 +2,7 @@ Final-Project
 
 make roguelike game
 Top-down tile-based turn-based RPG with randomly generated maps and perma-death.
-The goal is to find the stairs to go down the dungeon to find the treasure and then to escape.
+The goal is to find the stairs to go down the dungeon to find the treasure.
 
 History:
 
@@ -41,21 +41,22 @@ History:
 	1/14/15:
 		Ladders work. Will generate new map.
 		Announces what level you are on.
-		Speed thingy done. Monsters all currently move 0.5 speed.
+		Speed thingy done. Monsters all currently move 0.5 speed. Player is 1.0.
 	1/15/15:
-		Added weapons. Armors don't work yet. They don't decrease the damage you do.
+		Added weapons and armor. They amount of damage you do depends on your weapon. Your armor reduces the amount of damage every attack does to you.
+		Ladder won't spawn. Bug: must fix.
 		Added final level.
 
 To-Do List:
 Flood-fill to make it so that the map cannot have isolated caves (find good algorithm)
+Make speed better able to handle numbers over 1.0 (Monsters currently cannot move faster than the player). If player is over 1.0, monster's speed is decreased accordingly.
 Make FOV more efficient.
 Add Monster AI. Also, they should drop loot on death.
 Find a theme.
-Add equipment (weapons,armor,etc.).
 Add prefixes/suffixes, enchantments or whatever to the items (basically give them random stats/effects)
 Maybe add consumables
 Stats?
-Leveling up (both character's level and going up the dungeon)
+Leveling up?
 Scaling loot/monsters to go up with dungeon? (can hard-code it)
 Ranged combat?
 Maybe add tomes/manuals/whatever that will allow the player to gain skills (maybe allow them to get them by leveling up as well)

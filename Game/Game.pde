@@ -57,9 +57,9 @@ void generateLadder() {
   int x;
   int y;
   while (true) {
-    x = int(random(map.length-1)+1);
-    y = int(random(map[x].length-1)+1);
-    if (map[x][y].getType() != '#' && map[x][y].getType() != '@') {
+    x = int(random(map.length));
+    y = int(random(map[x].length));
+    if (map[x][y].getType() != '#' && map[x][y].isEmpty()) {
       map[x][y].setType('>');
       break;
     }

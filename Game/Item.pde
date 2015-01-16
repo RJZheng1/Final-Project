@@ -10,5 +10,14 @@ public class Item {
   public int getNum() {
     return int(random(range+1))+min;
   }
+  public String getName(){
+    return name;
+  }
+  public int getMin() {
+    return min;
+  }
+  public int getMax() {
+    return min+range;
+  }
 }
 

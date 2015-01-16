@@ -69,7 +69,7 @@ void generateLadder() {
 void generateMap() {
   level++;
   text = "You are on level " + level +".";
-  if ( level != 1 ) {
+  if ( level != 2 ) {
     for (int x = 0; x < map.length; x++) {
       for (int y = 0; y < map[x].length; y++)
         map[x][y].setEmpty(true);
@@ -101,13 +101,13 @@ void generateMap() {
         }
       }
     }
+    generateLadder();
     Player.spawn(map);
     Monsters.clear();
     for (int i = 0; i < 1; i++) {
       Monsters.add(new Monster("Zombie", 'Z', 0.5, i));
       Monsters.get(i).spawn(map);
     }
-    generateLadder();
   } else {
     Player.setLoc(23, 23);
     while (true) {
@@ -199,9 +199,11 @@ void keyPressed() {
 }
 void inMenu() {
   todisplay.clear();
-  todisplay.add("Player");
+  todisplay.add(Player.getName());
   todisplay.add("HP: "+Player.getHP());
   todisplay.add("Speed: "+Player.getSpeed());
+  todisplay.add(Player.weapon.getName()+" does "+Player.weapon.getMin()+"-"+Player.weapon.getMax()+" damage");
+  todisplay.add(Player.armor.getName()+" blocks "+Player.defense()+" damage");
 }
 void playerMenu(int xstart, int ystart) {
   for ( int i = 0; i < todisplay.size (); i++) {

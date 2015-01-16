@@ -4,6 +4,7 @@ ArrayList<Monster> Monsters;
 int level=0;
 String text;
 ArrayList<String> todisplay=new ArrayList<String>(10);
+
 void setup() {
   noLoop();
   size(1200, 800);
@@ -15,8 +16,9 @@ void setup() {
       map[x][y] = new Terrain();
   }
   generateMap();
-  text += "You begin your descent into the cave, hungry for the legendary treasure of the ruthless Baron. The walls are damp and slimy, but you are undaunted.";
+  text = "You begin your descent into the cave, hungry for the legendary treasure of the ruthless Baron. The walls are damp and slimy, but you are undaunted.";
 }
+
 boolean inBounds(int x, int y) {
   return x >= 0 && x < map.length && y >= 0 && y < map[x].length;
 }
@@ -59,7 +61,7 @@ void generateLadder() {
   while (true) {
     x = int(random(map.length));
     y = int(random(map[x].length));
-    if (map[x][y].getType() != '#' && map[x][y].isEmpty()) {
+    if (map[x][y].getType() == '.') {
       map[x][y].setType('>');
       break;
     }
@@ -138,11 +140,11 @@ void generateMap() {
       }
       break;
     }
-  }
-  for ( int a = 0; a < map.length; a++ ) {
-    for ( int b = 0; b < map[a].length; b++) {
-      if ( map[a][b].getType()!= '#' ) {
-        map[a][b].setType('.');
+    for ( int a = 0; a < map.length; a++ ) {
+      for ( int b = 0; b < map[a].length; b++) {
+        if ( map[a][b].getType()!= '#' ) {
+          map[a][b].setType('.');
+        }
       }
     }
   }
@@ -203,13 +205,15 @@ void inMenu() {
   todisplay.add("HP: "+Player.getHP());
   todisplay.add("Speed: "+Player.getSpeed());
   todisplay.add(Player.weapon.getName()+" does "+Player.weapon.getMin()+"-"+Player.weapon.getMax()+" damage");
-  todisplay.add(Player.armor.getName()+" blocks "+Player.defense()+" damage");
+  todisplay.add(Player.armor.getName()+" blocks "+ Player.armor.getMin()+"-"+Player.armor.getMax()+" damage");
 }
+
 void playerMenu(int xstart, int ystart) {
   for ( int i = 0; i < todisplay.size (); i++) {
     text(todisplay.get(i), xstart+4, ystart+i*32+16);
   }
 }
+
 void draw() {
   background(0);
   textSize(16);

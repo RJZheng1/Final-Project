@@ -99,8 +99,8 @@ public class PC extends Characters {
   Item armor;
   public PC(String name) {
     super(name, '@', 20, 1, 0, 0);
-    weapon = new Item("Fists", 0, 20);
-    armor = new Item("Rags", 1, 0);
+    weapon = new Item("Rusty Club", 0, 20);
+    armor = new Item("Rag", 1, 0);
   }
   public String move(Terrain[][] map, ArrayList<Monster> Monsters, char k) {
     turnUp(1);

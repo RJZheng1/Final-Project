@@ -46,6 +46,10 @@ History:
 		Added weapons and armor. They amount of damage you do depends on your weapon. Your armor reduces the amount of damage every attack does to you.
 		Ladder won't spawn. Bug: must fix.
 		Added final level.
+		Will display items and show what they do.
+	1/16/15:
+		Fixed bug with ladder not spawning.
+		Final level not created properly. Must fix.
 
 To-Do List:
 Flood-fill to make it so that the map cannot have isolated caves (find good algorithm)

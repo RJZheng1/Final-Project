@@ -6,6 +6,7 @@ public abstract class Characters {
   private boolean dead;
   private float speed;
   private float turnCounter;
+  private int exp;
   public Characters() {
     this("Adventurer", '@', 20, 1, 0, 0);
   }
@@ -41,6 +42,12 @@ public abstract class Characters {
         break;
       }
     }
+  }
+  public void incExp(){
+    exp++;
+  }
+  public int getExp(){
+    return exp;
   }
   public void setLoc(int x, int y) {
     loc.set(x, y);

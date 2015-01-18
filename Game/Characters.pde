@@ -43,10 +43,10 @@ public abstract class Characters {
       }
     }
   }
-  public void incExp(){
+  public void incExp() {
     exp++;
   }
-  public int getExp(){
+  public int getExp() {
     return exp;
   }
   public void setLoc(int x, int y) {
@@ -76,14 +76,6 @@ public abstract class Characters {
   public boolean isDead() {
     return dead;
   }
-  public String attack(Terrain[][] map, Characters other, int dmg) {
-    other.setHP(other.getHP()-dmg);
-    if (other.getHP() <= 0) {
-      other.setDead(true);
-      map[other.getX()][other.getY()].setEmpty(true);
-    }
-    return name + " did " + dmg + " damage to " + other.getName() + ". ";
-  }
   public void turnUp(float x) {
     turnCounter += speed/x;
   }
@@ -106,8 +98,14 @@ public class PC extends Characters {
   Armor armor;
   public PC(String name) {
     super(name, '@', 20, 1, 0, 0);
-    weapon = new Weapon("Rusty Club", 0, 20);
-    armor = new Armor("Rag", 1, 0);
+    weapon = new Weapon("Excalibr", 20, 20);
+    armor = new Armor("Aegis", 20, 20);
+  }
+  public void reset() {
+    setHP(20);
+    setSpeed(1.0);
+    weapon = new Weapon("Rusty Club", 20, 20);
+    armor = new Armor("Rag", 0, 1);
   }
   public String move(Terrain[][] map, ArrayList<Monster> Monsters, char k) {
     turnUp(1);
@@ -135,6 +133,14 @@ public class PC extends Characters {
     }
     return "";
   }
+  public String attack(Terrain[][] map, Monster other, int dmg) {
+    other.setHP(other.getHP()-dmg);
+    if (other.getHP() <= 0) {
+      other.setDead(true);
+      map[other.getX()][other.getY()].setEmpty(true);
+    }
+    return "You did " + dmg + " damage to " + other.getName() + ". ";
+  }
   public String moveHelper(Terrain[][] map, ArrayList<Monster> Monsters, int x, int y) {
     turnDown();
     if (detectMonster(map, x, y) && !Monsters.get(getMonster(map, x, y)).isDead()) {
@@ -156,7 +162,7 @@ public class Monster extends Characters {
   private boolean display;
   int num;
   int dmg;
-  public Monster(String name, char symbol, int HP ,float speed, int num, int dmg) {
+  public Monster(String name, char symbol, int HP, float speed, int num, int dmg) {
     super(name, symbol, HP, speed, 0, 0);
     display=false;
     this.num = num;
@@ -177,7 +183,7 @@ public class Monster extends Characters {
     map[getX()][getY()].setEmpty(false);
     map[getX()][getY()].setMonster(num);
   }
-  public int getDmg(){
+  public int getDmg() {
     return dmg;
   }
   public String move(Terrain[][] map, PC player, int dmg) {
@@ -201,12 +207,12 @@ public class Monster extends Characters {
   }
   public String attack(Terrain[][] map, PC player, int dmg) {
     dmg -= player.defense();
-    System.out.println(player.defense());
     if (dmg < 0)
       dmg = 0;
     player.setHP(player.getHP()-dmg);
     if (player.getHP() <= 0)
       player.setDead(true);
-    return getName() + " did " + dmg + " damage to " + player.getName() + ". ";
+    return getName() + " did " + dmg + " damage to you. ";
   }
 }
+

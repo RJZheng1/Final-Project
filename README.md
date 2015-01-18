@@ -50,6 +50,8 @@ History:
 	1/16/15:
 		Fixed bug with ladder not spawning.
 		Final level not created properly. Must fix.
+	1/18/15:
+		Added win/fail states. Game will show a victory/failure screen and the player can restart by pressing any button.
 
 To-Do List:
 Flood-fill to make it so that the map cannot have isolated caves (find good algorithm)

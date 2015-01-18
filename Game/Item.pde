@@ -1,33 +1,32 @@
 public class Item {
   String name;
-  int range;
-  int min;
-  public Item(String name, int range, int min) {
+  int min, max;
+  public Item(String name, int min, int max) {
     this.name = name;
-    this.range = range;
     this.min = min;
+    this.max = max;
   }
   public int getNum() {
-    return int(random(range+1))+min;
+    return int(random(min, max+1));
   }
-  public String getName(){
+  public String getName() {
     return name;
   }
   public int getMin() {
     return min;
   }
   public int getMax() {
-    return min+range;
+    return max;
   }
 }
 public class Weapon extends Item {
-  public Weapon(String name , int range , int min) {
-    super(name , range , min );
+  public Weapon(String name, int min, int max) {
+    super(name, min, max );
   }
 }
 public class Armor extends Item { 
-  public Armor(String name, int range , int min ){
-    super(name , range , min );
+  public Armor(String name, int min, int max ) {
+    super(name, min, max );
   }
 }
 

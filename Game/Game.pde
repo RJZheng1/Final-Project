@@ -112,7 +112,7 @@ void generateMap() {
     generateLadder();
     Player.spawn(map);
     for (int i = 0; i < 100; i++) {
-      Monsters.add(new Monster("Zombie", 'Z', 20 , 0.5, i, 1));
+      Monsters.add(new Monster("Zombie", 'Z', 20, 0.5, i, 1));
       Monsters.get(i).spawn(map);
     }
   } else {
@@ -122,9 +122,9 @@ void generateMap() {
       }
     }
     Player.setLoc(23, 23);
-    for ( int x = 0 ; x < map.length ; x ++) {
-      for ( int y = 0 ; y <map[x].length ; y ++) {
-        if ( x <=13 || x >= map.length-12){
+    for ( int x = 0; x < map.length; x ++) {
+      for ( int y = 0; y <map[x].length; y ++) {
+        if ( x <=13 || x >= map.length-12) {
           map[x][y].setType('#');
         }
         if (y <= 13 || y >= map.length-12) {
@@ -132,7 +132,7 @@ void generateMap() {
         }
       }
     }
-    Monsters.add(new Monster("Baron", 'B', 500 , .75 , 0, 20));
+    Monsters.add(new Monster("Baron", 'B', 500, .75, 0, 20));
     Monsters.get(0).spawn(map);
   }
 }
@@ -207,18 +207,31 @@ void draw() {
   for (Monster m : Monsters)
     m.setDisplay(false);
   fov(Player.getX(), Player.getY(), 10);
-//  for ( int x  = 0 ; x < map.length  ; x ++ ){
-//    for ( int y = 0 ; y < map[x].length ; y ++ ){
-//      text(map[x][y].getType(), x*16, y*16+16);
-//    }
-//  }
-  Player.display();
-  fill(255, 255, 255);
-  rect(0, 735, 800, 3);
-  text(text, 0, 736, 800, 56);
-  rect(800, 0, 3, 800);
-  rect(800, 600, 1200, 3);
-  inMenu();
-  playerMenu(800, 0);
+  if (Monsters.size() == 1 && Monsters.get(0).isDead()) {
+    background(0);
+    text("You have defeated the Baron and gotten the legendary Treasure! Press any key to play again.", 256, 392);
+    if (keyPressed) {
+      Player.reset();
+      level = 0;
+      generateMap();
+    }
+  } else if (Player.getHP() > 0) {
+    Player.display();
+    fill(255, 255, 255);
+    rect(0, 735, 800, 3);
+    text(text, 0, 736, 800, 56);
+    rect(800, 0, 3, 800);
+    rect(800, 600, 1200, 3);
+    inMenu();
+    playerMenu(800, 0);
+  } else {
+    background(0);
+    text("You have died. Press any key to restart.", 480, 392);
+    if (keyPressed) {
+      Player.reset();
+      level = 0;
+      generateMap();
+    }
+  }
 }
 

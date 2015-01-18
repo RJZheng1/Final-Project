@@ -102,12 +102,12 @@ public abstract class Characters {
 }
 
 public class PC extends Characters {
-  Item weapon;
-  Item armor;
+  Weapon weapon;
+  Armor armor;
   public PC(String name) {
     super(name, '@', 20, 1, 0, 0);
-    weapon = new Item("Rusty Club", 0, 20);
-    armor = new Item("Rag", 1, 0);
+    weapon = new Weapon("Rusty Club", 0, 20);
+    armor = new Armor("Rag", 1, 0);
   }
   public String move(Terrain[][] map, ArrayList<Monster> Monsters, char k) {
     turnUp(1);
@@ -155,10 +155,12 @@ public class PC extends Characters {
 public class Monster extends Characters {
   private boolean display;
   int num;
-  public Monster(String name, char symbol, float speed, int num) {
-    super(name, symbol, 20, speed, 0, 0);
+  int dmg;
+  public Monster(String name, char symbol, int HP ,float speed, int num, int dmg) {
+    super(name, symbol, HP, speed, 0, 0);
     display=false;
     this.num = num;
+    this.dmg = dmg;
   }
   public void display() {
     super.display();
@@ -175,7 +177,10 @@ public class Monster extends Characters {
     map[getX()][getY()].setEmpty(false);
     map[getX()][getY()].setMonster(num);
   }
-  public String move(Terrain[][] map, PC player) {
+  public int getDmg(){
+    return dmg;
+  }
+  public String move(Terrain[][] map, PC player, int dmg) {
     turnUp(player.getSpeed());
     if (getTurnCounter() < 1)
       return "";
@@ -184,7 +189,7 @@ public class Monster extends Characters {
     int y =  int(Math.signum(float(player.getY()-getY())));
     if (!detectWall(map, x, y) && map[getX()+x][getY()+y].isEmpty()) {
       if (player.getX() == getX() + x && player.getY() == getY() + y)
-        return attack(map, player, 1);
+        return attack(map, player, dmg);
       else {
         map[getX()][getY()].setEmpty(true);
         addLoc(x, y);
@@ -205,4 +210,3 @@ public class Monster extends Characters {
     return getName() + " did " + dmg + " damage to " + player.getName() + ". ";
   }
 }
-

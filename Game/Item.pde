@@ -20,4 +20,14 @@ public class Item {
     return min+range;
   }
 }
+public class Weapon extends Item {
+  public Weapon(String name , int range , int min) {
+    super(name , range , min );
+  }
+}
+public class Armor extends Item { 
+  public Armor(String name, int range , int min ){
+    super(name , range , min );
+  }
+}
 

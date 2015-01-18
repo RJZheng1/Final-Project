@@ -112,7 +112,7 @@ void generateMap() {
     generateLadder();
     Player.spawn(map);
     for (int i = 0; i < 100; i++) {
-      Monsters.add(new Monster("Zombie", 'Z', 0.5, i));
+      Monsters.add(new Monster("Zombie", 'Z', 20 , 0.5, i, 1));
       Monsters.get(i).spawn(map);
     }
   } else {
@@ -122,34 +122,18 @@ void generateMap() {
       }
     }
     Player.setLoc(23, 23);
-    while (true) {
-      int a = 13;
-      for ( int b = 0; b < map[a].length; b++) {
-        map[a][b].setType('#');
+    for ( int x = 0 ; x < map.length ; x ++) {
+      for ( int y = 0 ; y <map[x].length ; y ++) {
+        if ( x <=13 || x >= map.length-12){
+          map[x][y].setType('#');
+        }
+        if (y <= 13 || y >= map.length-12) {
+          map[x][y].setType('#');
+        }
       }
-      break;
     }
-    while (true) {
-      int a = map.length-12;
-      for ( int b = 0; b < map[a].length; b++) {
-        map[a][b].setType('#');
-      }
-      break;
-    }
-    while (true) {
-      int a = 13;
-      for ( int b = 0; b < map[a].length; b++) {
-        map[b][a].setType('#');
-      }
-      break;
-    }
-    while (true) {
-      int a = map.length-12;
-      for ( int b = 0; b < map[a].length; b++) {
-        map[b][a].setType('#');
-      }
-      break;
-    }
+    Monsters.add(new Monster("Baron", 'B', 500 , .75 , 0, 20));
+    Monsters.get(0).spawn(map);
   }
 }
 
@@ -189,7 +173,7 @@ void los(int xstart, int ystart, int xend, int yend) {
     if (map[xstart][ystart].isEmpty()) {
       text(map[xstart][ystart].getType(), xstart*16, ystart*16+16);
     } else if (!Monsters.get(map[xstart][ystart].getMonster()).isDead() && !Monsters.get(map[xstart][ystart].getMonster()).getDisplay()) {
-      text += Monsters.get(map[xstart][ystart].getMonster()).move(map, Player);
+      text += Monsters.get(map[xstart][ystart].getMonster()).move(map, Player, Monsters.get(map[xstart][ystart].getMonster()).getDmg());
       Monsters.get(map[xstart][ystart].getMonster()).display();
     }
   }
@@ -223,6 +207,11 @@ void draw() {
   for (Monster m : Monsters)
     m.setDisplay(false);
   fov(Player.getX(), Player.getY(), 10);
+//  for ( int x  = 0 ; x < map.length  ; x ++ ){
+//    for ( int y = 0 ; y < map[x].length ; y ++ ){
+//      text(map[x][y].getType(), x*16, y*16+16);
+//    }
+//  }
   Player.display();
   fill(255, 255, 255);
   rect(0, 735, 800, 3);

@@ -111,8 +111,8 @@ void generateMap() {
     }
     generateLadder();
     Player.spawn(map);
-    for (int i = 0; i < 100; i++) {
-      Monsters.add(new Monster("Zombie", 'Z', 20, 0.5, i, 1));
+    for (int i = 0; i < 9+level; i++) {
+      Monsters.add(new Monster("Zombie", 'Z', 19+level, 0.5, i, level));
       Monsters.get(i).spawn(map);
     }
   } else {
@@ -134,6 +134,7 @@ void generateMap() {
     }
     Monsters.add(new Monster("Baron", 'B', 500, .75, 0, 20));
     Monsters.get(0).spawn(map);
+    text="You see the gruesome Baron in front of you. Although your knees are shaking, you do not give in to the fear and head right into the mouth of the Baron.";
   }
 }
 
@@ -189,6 +190,7 @@ void keyPressed() {
 void inMenu() {
   todisplay.clear();
   todisplay.add(Player.getName());
+  todisplay.add("Level "+Player.getSkill()+ "     Exp "+Player.getExp());
   todisplay.add("HP: "+Player.getHP());
   todisplay.add("Speed: "+Player.getSpeed());
   todisplay.add(Player.weapon.getName()+" does "+Player.weapon.getMin()+"-"+Player.weapon.getMax()+" damage");

@@ -7,17 +7,22 @@ public abstract class Characters {
   private float speed;
   private float turnCounter;
   private int exp;
+  private int skill;
+  private int maxHP;
   public Characters() {
     this("Adventurer", '@', 20, 1, 0, 0);
   }
   public Characters(String name, char symbol, int HP, float speed, int x, int y) {
     this.name = name;
     this.symbol = symbol;
-    this.HP = HP;
+    this.HP = HP+skill;
+    maxHP=this.HP;
     this.speed = speed;
     turnCounter = 0;
     loc = new PVector(x, y);
     dead = false;
+    exp=0;
+    skill=0;
   }
   public void addLoc(int x, int y) {
     loc.add(x, y, 0);
@@ -42,12 +47,6 @@ public abstract class Characters {
         break;
       }
     }
-  }
-  public void incExp() {
-    exp++;
-  }
-  public int getExp() {
-    return exp;
   }
   public void setLoc(int x, int y) {
     loc.set(x, y);
@@ -91,6 +90,24 @@ public abstract class Characters {
   public void setSpeed(float speed) {
     this.speed=speed;
   }
+  public int getExp(){
+    return exp;
+  }
+  public void setExp(int i){
+    exp=i;
+  }
+  public int getSkill(){
+    return skill;
+  }
+  public void setSkill(int i){
+    skill=i;
+  }
+  public int getmaxHP(){
+    return maxHP;
+  }
+  public void setmaxHP(int i){
+    maxHP=i;
+  }
 }
 
 public class PC extends Characters {
@@ -104,6 +121,8 @@ public class PC extends Characters {
   public void reset() {
     setHP(20);
     setSpeed(1.0);
+    setSkill(0);
+    setExp(0);
     weapon = new Weapon("Rusty Club", 20, 20);
     armor = new Armor("Rag", 0, 1);
   }
@@ -136,12 +155,24 @@ public class PC extends Characters {
   public String attack(Terrain[][] map, Monster other, int dmg) {
     other.setHP(other.getHP()-dmg);
     if (other.getHP() <= 0) {
+      setExp(getExp()+1);
+      if(getExp()==10+getSkill()){
+        setSkill(getSkill()+1);
+        setmaxHP(getmaxHP()+getSkill());
+        setHP(getmaxHP());
+        setExp(0);
+      }
       other.setDead(true);
       map[other.getX()][other.getY()].setEmpty(true);
     }
     return "You did " + dmg + " damage to " + other.getName() + ". ";
   }
   public String moveHelper(Terrain[][] map, ArrayList<Monster> Monsters, int x, int y) {
+    if(getHP()+1>getmaxHP()){
+      setHP(getmaxHP());
+    }else{
+      setHP(getHP()+1);
+    }
     turnDown();
     if (detectMonster(map, x, y) && !Monsters.get(getMonster(map, x, y)).isDead()) {
       return attack(map, Monsters.get(getMonster(map, x, y)), weapon.getNum());

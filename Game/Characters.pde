@@ -90,22 +90,22 @@ public abstract class Characters {
   public void setSpeed(float speed) {
     this.speed=speed;
   }
-  public int getExp(){
+  public int getExp() {
     return exp;
   }
-  public void setExp(int i){
+  public void setExp(int i) {
     exp=i;
   }
-  public int getSkill(){
+  public int getSkill() {
     return skill;
   }
-  public void setSkill(int i){
+  public void setSkill(int i) {
     skill=i;
   }
-  public int getmaxHP(){
+  public int getmaxHP() {
     return maxHP;
   }
-  public void setmaxHP(int i){
+  public void setmaxHP(int i) {
     maxHP=i;
   }
 }
@@ -156,21 +156,22 @@ public class PC extends Characters {
     other.setHP(other.getHP()-dmg);
     if (other.getHP() <= 0) {
       setExp(getExp()+1);
-      if(getExp()==10+getSkill()){
+      if (getExp()==10+getSkill()) {
         setSkill(getSkill()+1);
         setmaxHP(getmaxHP()+getSkill());
         setHP(getmaxHP());
         setExp(0);
       }
+      other.drop(map);
       other.setDead(true);
       map[other.getX()][other.getY()].setEmpty(true);
     }
     return "You did " + dmg + " damage to " + other.getName() + ". ";
   }
   public String moveHelper(Terrain[][] map, ArrayList<Monster> Monsters, int x, int y) {
-    if(getHP()+1>getmaxHP()){
+    if (getHP()+1>getmaxHP()) {
       setHP(getmaxHP());
-    }else{
+    } else {
       setHP(getHP()+1);
     }
     turnDown();
@@ -244,6 +245,13 @@ public class Monster extends Characters {
     if (player.getHP() <= 0)
       player.setDead(true);
     return getName() + " did " + dmg + " damage to you. ";
+  }
+  public void drop(Terrain[][] map) {
+    float rand = random(100);
+    if (rand < 25)
+      map[getX()][getY()].loot.add(new Weapon("Sword", int(random(0.5*dmg, 1*dmg)), int(random(1.5*dmg, 2*dmg))));
+    if (rand < 50)
+      map[getX()][getY()].loot.add(new Armor("Breastplate", int(random(0.5*dmg, 1*dmg)), int(random(1.5*dmg, 2*dmg))));
   }
 }
 

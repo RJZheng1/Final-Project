@@ -52,6 +52,8 @@ History:
 		Final level not created properly. Must fix.
 	1/18/15:
 		Added win/fail states. Game will show a victory/failure screen and the player can restart by pressing any button.
+	1/19/15:
+		Monsters drop items. Items on the tile you stand on will be displayed.
 
 To-Do List:
 Flood-fill to make it so that the map cannot have isolated caves (find good algorithm)

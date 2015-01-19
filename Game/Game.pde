@@ -3,7 +3,7 @@ Terrain[][] map;
 ArrayList<Monster> Monsters;
 int level=0;
 String text;
-ArrayList<String> todisplay=new ArrayList<String>(10);
+ArrayList<String> todisplay = new ArrayList<String>(10);
 
 void setup() {
   noLoop();
@@ -134,7 +134,7 @@ void generateMap() {
     }
     Monsters.add(new Monster("Baron", 'B', 500, .75, 0, 20));
     Monsters.get(0).spawn(map);
-    text="You see the gruesome Baron in front of you. Although your knees are shaking, you do not give in to the fear and head right into the mouth of the Baron.";
+    text="You see the gruesome Baron in front of you. Although your knees are shaking, you do not give in to the fear. You draw your weapon and charge.";
   }
 }
 
@@ -193,8 +193,11 @@ void inMenu() {
   todisplay.add("Level "+Player.getSkill()+ "     Exp "+Player.getExp());
   todisplay.add("HP: "+Player.getHP());
   todisplay.add("Speed: "+Player.getSpeed());
-  todisplay.add(Player.weapon.getName()+" does "+Player.weapon.getMin()+"-"+Player.weapon.getMax()+" damage");
-  todisplay.add(Player.armor.getName()+" blocks "+ Player.armor.getMin()+"-"+Player.armor.getMax()+" damage");
+  todisplay.add(Player.weapon.getName()+" "+Player.weapon.getMin()+"-"+Player.weapon.getMax());
+  todisplay.add(Player.armor.getName()+" "+ Player.armor.getMin()+"-"+Player.armor.getMax());
+  todisplay.add("On the floor:");
+  for(Item i:map[Player.getX()][Player.getY()].loot)
+    todisplay.add(i.getName()+" "+i.getMin()+"-"+i.getMax());
 }
 
 void playerMenu(int xstart, int ystart) {

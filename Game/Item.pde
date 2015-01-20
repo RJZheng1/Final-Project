@@ -1,10 +1,11 @@
 public abstract class Item {
   String name;
-  int min, max;
-  public Item(String name, int min, int max) {
+  int min, max, DEX;
+  public Item(String name, int min, int max, int DEX) {
     this.name = name;
     this.min = min;
     this.max = max;
+    this.DEX = DEX;
   }
   public int getNum() {
     return int(random(min, max+1));
@@ -18,11 +19,14 @@ public abstract class Item {
   public int getMax() {
     return max;
   }
+  public int getDEX() {
+    return DEX;
+  }
   public abstract void equip(PC Player, Terrain tile, int x);
 }
 public class Weapon extends Item {
-  public Weapon(String name, int min, int max) {
-    super(name, min, max );
+  public Weapon(String name, int min, int max, int DEX) {
+    super(name, min, max, DEX);
   }
   public void equip(PC Player, Terrain tile, int x) {
     tile.loot.remove(x);
@@ -31,8 +35,8 @@ public class Weapon extends Item {
   }
 }
 public class Armor extends Item { 
-  public Armor(String name, int min, int max ) {
-    super(name, min, max );
+  public Armor(String name, int min, int max, int DEX) {
+    super(name, min, max, DEX);
   }
   public void equip(PC Player, Terrain tile, int x) {
     tile.loot.remove(x);
@@ -40,4 +44,3 @@ public class Armor extends Item {
     Player.armor = this;
   }
 }
-

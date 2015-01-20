@@ -68,48 +68,76 @@ void generateLadder() {
   }
 }
 
-void generateMap() {
-  for ( int x = 0; x < map.length; x ++ ) {
-    for ( int y = 0; y < map[x].length; y ++ ) {
-      map[x][y].setEmpty(true);
-      map[x][y].loot.clear();
+public int floodFill(int x, int y) {
+  if (map[x][y].getType() == '#' || map[x][y].isFilled())
+    return 0;
+  else {
+    map[x][y].setFilled(true);
+    return 1 + floodFill(x+1, y) + floodFill(x, y+1) + floodFill(x-1, y) + floodFill(x, y-1);
+  }
+}
+
+void createMap() {
+  int[][] count1 = new int[45][45];
+  int[][] count2 = new int[45][45];
+  for (int x = 0; x < map.length; x++) {
+    for (int y = 0; y < map[x].length; y++) {
+      if (x==0 || x==map[x].length-1 || y==0 || y==map.length-1 || random(100)<40)
+        map[x][y].setType('#');
+      else
+        map[x][y].setType('.');
     }
   }
-  level++;
-  text = "You are on level " + level +".";
-  Monsters.clear();
-  if ( level != 2 ) {
-    for (int x = 0; x < map.length; x++) {
-      for (int y = 0; y < map[x].length; y++)
-        map[x][y].setEmpty(true);
+  for (int i = 0; i < 7; i++) {
+    for (int x = 1; x < map.length-1; x++) {
+      for (int y = 1; y < map[x].length-1; y++) {
+        count1[x][y] = checkWalls(x, y, 1);
+        if (i < 4)
+          count2[x][y] = checkWalls(x, y, 2);
+      }
     }
-    int[][] count1 = new int[45][45];
-    int[][] count2 = new int[45][45];
-    for (int x = 0; x < map.length; x++) {
-      for (int y = 0; y < map[x].length; y++) {
-        if (x==0 || x==map[x].length-1 || y==0 || y==map.length-1 || random(100)<40)
+    for (int x = 1; x < count1.length-1; x++) {
+      for (int y = 1; y < count1[x].length-1; y++) {
+        if ((count1[x][y]>=5) || (i<4 && count2[x][y]<=2))
           map[x][y].setType('#');
         else
           map[x][y].setType('.');
       }
     }
-    for (int i = 0; i < 7; i++) {
-      for (int x = 1; x < map.length-1; x++) {
-        for (int y = 1; y < map[x].length-1; y++) {
-          count1[x][y] = checkWalls(x, y, 1);
-          if (i < 4)
-            count2[x][y] = checkWalls(x, y, 2);
+  }
+  while (true) {
+    int x = int(random(45));
+    int y = int(random(45));
+    if (map[x][y].getType() == '.') {
+      int num = floodFill(x, y);
+      if (num > 45*45*0.45) {
+        for (int a = 0; a < map.length; a++) {
+          for (int b = 0; b < map[a].length; b++) {
+            if (!map[a][b].isFilled())
+              map[a][b].setType('#');
+          }
         }
+      } else {
+        createMap();
       }
-      for (int x = 1; x < count1.length-1; x++) {
-        for (int y = 1; y < count1[x].length-1; y++) {
-          if ((count1[x][y]>=5) || (i<4 && count2[x][y]<=2))
-            map[x][y].setType('#');
-          else
-            map[x][y].setType('.');
-        }
-      }
+      break;
     }
+  }
+}
+
+void generateMap() {
+  for ( int x = 0; x < map.length; x ++ ) {
+    for ( int y = 0; y < map[x].length; y ++ ) {
+      map[x][y].setEmpty(true);
+      map[x][y].loot.clear();
+      map[x][y].setFilled(false);
+    }
+  }
+  level++;
+  Monsters.clear();
+  if ( level != 10 ) {
+    createMap();
+    text = "You are on level " + level +".";
     generateLadder();
     Player.spawn(map);
     for (int i = 0; i < 9+level; i++) {

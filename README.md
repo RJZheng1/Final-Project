@@ -52,20 +52,20 @@ History:
 		Final level not created properly. Must fix.
 	1/18/15:
 		Added win/fail states. Game will show a victory/failure screen and the player can restart by pressing any button.
+		Player can gain EXP and level up.
 	1/19/15:
 		Monsters drop items. Items on the tile you stand on will be displayed.
 		Can pick up items from the ground.
+		Flood-fill so that the map generation never makes open spaces.
 
 To-Do List:
-Flood-fill to make it so that the map cannot have isolated caves (find good algorithm)
 Make speed better able to handle numbers over 1.0 (Monsters currently cannot move faster than the player). If player is over 1.0, monster's speed is decreased accordingly.
 Make FOV more efficient.
-Add Monster AI. Also, they should drop loot on death.
+Make Monsters smarter?
 Find a theme.
 Add prefixes/suffixes, enchantments or whatever to the items (basically give them random stats/effects)
 Maybe add consumables
 Stats?
-Leveling up?
 Scaling loot/monsters to go up with dungeon? (can hard-code it)
 Ranged combat?
 Maybe add tomes/manuals/whatever that will allow the player to gain skills (maybe allow them to get them by leveling up as well)

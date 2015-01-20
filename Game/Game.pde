@@ -183,6 +183,8 @@ void los(int xstart, int ystart, int xend, int yend) {
 void keyPressed() {
   if (key >= '1' && key <= '9')
     text = Player.move(map, Monsters, key);
+  else if (key >= 'a' && key < 'a' + map[Player.getX()][Player.getY()].loot.size())
+    map[Player.getX()][Player.getY()].loot.get(key-'a').equip(Player, map[Player.getX()][Player.getY()], key-'a');
   else if (key == 'y' && map[Player.getX()][Player.getY()].getType() == '>')
     generateMap();
   redraw();
@@ -193,11 +195,13 @@ void inMenu() {
   todisplay.add("Level "+Player.getSkill()+ "     Exp "+Player.getExp());
   todisplay.add("HP: "+Player.getHP());
   todisplay.add("Speed: "+Player.getSpeed());
-  todisplay.add(Player.weapon.getName()+" "+Player.weapon.getMin()+"-"+Player.weapon.getMax());
-  todisplay.add(Player.armor.getName()+" "+ Player.armor.getMin()+"-"+Player.armor.getMax());
+  todisplay.add(Player.weapon.getName() + " " + Player.weapon.getMin() + "-" + Player.weapon.getMax());
+  todisplay.add(Player.armor.getName() + " " + Player.armor.getMin() + "-" + Player.armor.getMax());
   todisplay.add("On the floor:");
-  for(Item i:map[Player.getX()][Player.getY()].loot)
-    todisplay.add(i.getName()+" "+i.getMin()+"-"+i.getMax());
+  int x = 0;
+  for (Item i : map[Player.getX ()][Player.getY()].loot) {
+    todisplay.add("" + char('a' + x) + ") " + i.getName() + " " + i.getMin() + "-" + i.getMax());
+  }
 }
 
 void playerMenu(int xstart, int ystart) {

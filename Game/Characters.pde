@@ -115,7 +115,7 @@ public class PC extends Characters {
   Armor armor;
   public PC(String name) {
     super(name, '@', 20, 1, 0, 0);
-    weapon = new Weapon("Excalibr", 20, 20);
+    weapon = new Weapon("Excalibur", 20, 20);
     armor = new Armor("Aegis", 20, 20);
   }
   public void reset() {
@@ -123,8 +123,8 @@ public class PC extends Characters {
     setSpeed(1.0);
     setSkill(0);
     setExp(0);
-    weapon = new Weapon("Rusty Club", 20, 20);
-    armor = new Armor("Rag", 0, 1);
+    weapon = new Weapon("Excalibur", 20, 20);
+    armor = new Armor("Aegis", 0, 1);
   }
   public String move(Terrain[][] map, ArrayList<Monster> Monsters, char k) {
     turnUp(1);
@@ -250,7 +250,7 @@ public class Monster extends Characters {
     float rand = random(100);
     if (rand < 25)
       map[getX()][getY()].loot.add(new Weapon("Sword", int(random(0.5*dmg, 1*dmg)), int(random(1.5*dmg, 2*dmg))));
-    if (rand < 50)
+    else if (rand < 50)
       map[getX()][getY()].loot.add(new Armor("Breastplate", int(random(0.5*dmg, 1*dmg)), int(random(1.5*dmg, 2*dmg))));
   }
 }

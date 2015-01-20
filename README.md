@@ -54,6 +54,7 @@ History:
 		Added win/fail states. Game will show a victory/failure screen and the player can restart by pressing any button.
 	1/19/15:
 		Monsters drop items. Items on the tile you stand on will be displayed.
+		Can pick up items from the ground.
 
 To-Do List:
 Flood-fill to make it so that the map cannot have isolated caves (find good algorithm)

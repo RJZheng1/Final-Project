@@ -4,6 +4,15 @@ make roguelike game
 Top-down tile-based turn-based RPG with randomly generated maps and perma-death.
 The goal is to find the stairs to go down the dungeon to find the treasure.
 
+Controls:
+7 8 9    Use the numpad to move or attack.
+ \:/     Use 5 to wait a turn.
+4-5-6
+ /:\
+1 2 3
+If you are on a tile with loot on it, press the letter corresponding to each item to equip that item
+and drop your current item onto the floor.
+
 History:
 
 	Post Winter Break:
@@ -57,6 +66,8 @@ History:
 		Monsters drop items. Items on the tile you stand on will be displayed.
 		Can pick up items from the ground.
 		Flood-fill so that the map generation never makes open spaces.
+	1/20/15:
+		Added combat rolls to decide hit/miss.
 
 To-Do List:
 Make speed better able to handle numbers over 1.0 (Monsters currently cannot move faster than the player). If player is over 1.0, monster's speed is decreased accordingly.

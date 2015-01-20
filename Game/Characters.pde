@@ -102,13 +102,13 @@ public abstract class Characters {
   public void setSkill(int i) {
     skill=i;
   }
-  public int getmaxHP() {
+  public int getMaxHP() {
     return maxHP;
   }
-  public void setmaxHP(int i) {
+  public void setMaxHP(int i) {
     maxHP=i;
   }
-  public int roll(){
+  public int roll() {
     return int(random(20));
   }
 }
@@ -118,16 +118,16 @@ public class PC extends Characters {
   Armor armor;
   public PC(String name) {
     super(name, '@', 20, 1, 0, 0);
-    weapon = new Weapon("Excalibur", 20, 20);
-    armor = new Armor("Aegis", 20, 20, 0);
+    weapon = new Weapon("Sword", 3, 4, 0);
+    armor = new Armor("Breastplate", 0, 0, 0);
   }
   public void reset() {
     setHP(20);
     setSpeed(1.0);
     setSkill(0);
     setExp(0);
-    weapon = new Weapon("Excalibur", 20, 20, 0);
-    armor = new Armor("Aegis", 20, 20, 0);
+    weapon = new Weapon("Sword", 3, 4, 0);
+    armor = new Armor("Breastplate", 0, 0, 0);
   }
   public String move(Terrain[][] map, ArrayList<Monster> Monsters, char k) {
     turnUp(1);
@@ -161,8 +161,8 @@ public class PC extends Characters {
       setExp(getExp()+1);
       if (getExp()==10+getSkill()) {
         setSkill(getSkill()+1);
-        setmaxHP(getmaxHP()+getSkill());
-        setHP(getmaxHP());
+        setMaxHP(getMaxHP()+getSkill());
+        setHP(getMaxHP());
         setExp(0);
       }
       other.drop(map);
@@ -172,14 +172,14 @@ public class PC extends Characters {
     return "You did " + dmg + " damage to " + other.getName() + ". ";
   }
   public String moveHelper(Terrain[][] map, ArrayList<Monster> Monsters, int x, int y) {
-    if (getHP()+1>getmaxHP()) {
-      setHP(getmaxHP());
+    if (getHP()+1>getMaxHP()) {
+      setHP(getMaxHP());
     } else {
       setHP(getHP()+1);
     }
     turnDown();
     if (detectMonster(map, x, y) && !Monsters.get(getMonster(map, x, y)).isDead()) {
-      if(roll(true) < Monsters.get(getMonster(map,x,y)).roll())
+      if (roll(true) < Monsters.get(getMonster(map, x, y)).roll())
         return "You missed. ";
       return attack(map, Monsters.get(getMonster(map, x, y)), weapon.getNum());
     } else if (!detectWall(map, x, y)) {
@@ -193,8 +193,8 @@ public class PC extends Characters {
   public int defense() {
     return armor.getNum();
   }
-  public int roll(boolean atk){
-    if(atk)
+  public int roll(boolean atk) {
+    if (atk)
       return roll() + weapon.getDEX();
     return roll() + armor.getDEX();
   }
@@ -248,7 +248,7 @@ public class Monster extends Characters {
     return "";
   }
   public String attack(Terrain[][] map, PC player, int dmg) {
-    if(player.roll(false) > roll())
+    if (player.roll(false) > roll())
       return getName() + " missed. ";
     dmg -= player.defense();
     if (dmg < 0)
@@ -261,11 +261,11 @@ public class Monster extends Characters {
   public void drop(Terrain[][] map) {
     float rand = random(100);
     if (rand < 25)
-      map[getX()][getY()].loot.add(new Weapon("Sword", int(random(0.5*dmg, 1*dmg)), int(random(1.5*dmg, 2*dmg)), 0));
+      map[getX()][getY()].loot.add(new Weapon("Sword", int(random(0.5*dmg, 1*dmg))+4, int(random(1.5*dmg, 2*dmg))+4, int(random(-dmg/2, dmg*1.5))));
     else if (rand < 50)
-      map[getX()][getY()].loot.add(new Armor("Breastplate", int(random(0.5*dmg, 1*dmg)), int(random(1.5*dmg, 2*dmg)), 0));
+      map[getX()][getY()].loot.add(new Armor("Breastplate", int(random(0.5*dmg, 1*dmg)), int(random(1.5*dmg, 2*dmg)), int(random(-dmg/2, dmg*1.5))));
   }
-  public int roll(){
+  public int roll() {
     return super.roll() + dmg;
   }
 }

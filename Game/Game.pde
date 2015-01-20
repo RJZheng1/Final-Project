@@ -222,14 +222,14 @@ void inMenu() {
   todisplay.clear();
   todisplay.add(Player.getName());
   todisplay.add("Level "+Player.getSkill()+ "     Exp "+Player.getExp());
-  todisplay.add("HP: "+Player.getHP());
+  todisplay.add("HP: "+Player.getHP()+"/"+Player.getMaxHP());
   todisplay.add("Speed: "+Player.getSpeed());
-  todisplay.add(Player.weapon.getName() + " " + Player.weapon.getMin() + "-" + Player.weapon.getMax());
-  todisplay.add(Player.armor.getName() + " " + Player.armor.getMin() + "-" + Player.armor.getMax());
+  todisplay.add(Player.weapon.getName()+" "+Player.weapon.getMin()+"-"+Player.weapon.getMax()+", "+Player.weapon.getDEX());
+  todisplay.add(Player.armor.getName()+" "+Player.armor.getMin()+"-"+Player.armor.getMax()+", "+Player.armor.getDEX());
   todisplay.add("On the floor:");
   int x = 0;
   for (Item i : map[Player.getX ()][Player.getY()].loot) {
-    todisplay.add("" + char('a' + x) + ") " + i.getName() + " " + i.getMin() + "-" + i.getMax());
+    todisplay.add(""+char('a'+x)+")"+i.getName()+" "+i.getMin()+"-"+i.getMax()+", "+i.getDEX());
   }
 }
 

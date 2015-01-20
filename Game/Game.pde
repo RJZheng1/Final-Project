@@ -72,6 +72,7 @@ void generateMap() {
   for ( int x = 0; x < map.length; x ++ ) {
     for ( int y = 0; y < map[x].length; y ++ ) {
       map[x][y].setEmpty(true);
+      map[x][y].loot.clear();
     }
   }
   level++;

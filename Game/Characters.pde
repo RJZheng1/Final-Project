@@ -123,6 +123,7 @@ public class PC extends Characters {
     setSpeed(1.0);
     setSkill(0);
     setExp(0);
+    setmaxHP(20);
     weapon = new Weapon("Rusty Club", 20, 20);
     armor = new Armor("Rag", 0, 1);
   }
